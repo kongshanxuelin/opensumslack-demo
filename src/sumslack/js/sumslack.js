@@ -11,25 +11,25 @@ const getBaseURL = require('../include/base-url.js').getBaseURL;
 const navigator = weex.requireModule('navigator');
 
 const Http = {
-    getUrlParam: function (obj,key) {
+    getUrlParam: function (obj, key) {
         var url = "";
-        if(typeof obj === "object"){
+        if (typeof obj === "object") {
             url = obj.$getConfig().bundleUrl;
-        }else{
+        } else {
             url = obj;
         }
         var reg = new RegExp('[?|&]' + key + '=([^&]+)');
         var match = url.match(reg);
         return match && match[1];
     },
-    get:function(_url,params,callback,err){
+    get: function (_url, params, callback, err) {
         var me = this;
-        if(typeof params === "object"){
-            for(var k in params){
+        if (typeof params === "object") {
+            for (var k in params) {
                 console.log(k);
-                if(_url.indexOf("?")>0){
+                if (_url.indexOf("?") > 0) {
                     _url += "&" + k + "=" + encodeURIComponent(params[k]);
-                }else{
+                } else {
                     _url += "?" + k + "=" + encodeURIComponent(params[k]);
                 }
             }
@@ -38,62 +38,62 @@ const Http = {
             //headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             method: 'GET',
             url: _url,
-            type:'json'
-        }, function(ret) {
-            if(typeof callback === "function"){
+            type: 'json'
+        }, function (ret) {
+            if (typeof callback === "function") {
                 callback(ret);
             }
-        },function(response){
-            console.log('http get in progress:'+response.length);
-            if(typeof err === "function"){
+        }, function (response) {
+            console.log('http get in progress:' + response.length);
+            if (typeof err === "function") {
                 err(response);
             }
         });
     },
-    post:function(_url,param,cb){
+    post: function (_url, param, cb) {
         var me = this;
         stream.fetch({
             method: 'POST',
             url: _url,
-            type:'json',
+            type: 'json',
             //body:JSON.stringify({username:'weex'})//or you can just use JSON Object {username:'weex'}
-            body:JSON.stringify(param)
-        }, function(ret) {
+            body: JSON.stringify(param)
+        }, function (ret) {
             cb(ret);
-        },function(response){
-            console.log('http post in progress:'+response.length);
+        }, function (response) {
+            console.log('http post in progress:' + response.length);
         });
     },
-    fetch:function(_url,params){
-        if(typeof params === "object"){
-            for(var k in params){
+    fetch: function (_url, params) {
+        if (typeof params === "object") {
+            for (var k in params) {
                 console.log(k);
-                if(_url.indexOf("?")>0){
+                if (_url.indexOf("?") > 0) {
                     _url += "&" + k + "=" + encodeURIComponent(params[k]);
-                }else{
+                } else {
                     _url += "?" + k + "=" + encodeURIComponent(params[k]);
                 }
             }
         }
         return new Promise((resolve, reject) => {
-                stream.fetch({
-                    method: 'GET',
-                    url:_url,
-                    type: 'json'
-                }, (response) => {
-                        if (response.status == 200) {
+            stream.fetch({
+                method: 'GET',
+                url: _url,
+                type: 'json'
+            }, (response) => {
+                if (response.status == 200) {
                     resolve(response.data)
                 }
                 else {
                     reject(response)
                 }
-                }, () => {})
-       });
+            }, () => { })
+        });
     }
 };
 
 const Tool = {
-    dateFormat:function(date,fmt){
+    dateFormat: function (date, fmt) {
         var o = {
             "M+": date.getMonth() + 1,
             "d+": date.getDate(),
@@ -108,43 +108,43 @@ const Tool = {
             if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
     },
-    uuid:function(){
+    uuid: function () {
         var d = new Date().getTime();
-        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = (d + Math.random()*16)%16 | 0;
-            d = Math.floor(d/16);
-            return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
         });
         return uuid;
     }
 };
 
-export function getTool(){
+export function getTool() {
     return Tool;
 }
 
-export function getHttp(){
+export function getHttp() {
     return Http;
 }
 
 
-export function init(_title,_items,cb){
-    try{
-        if(isSumslackEnv()){
-            if(typeof _items != "undefined"){
-                sumslack.layoutNaviBar({"title":_title,"items":_items});
-            }else{
-                sumslack.layoutNaviBar({"title":_title});
+export function init(_title, _items, cb) {
+    try {
+        if (isSumslackEnv()) {
+            if (typeof _items != "undefined") {
+                sumslack.layoutNaviBar({ "title": _title, "items": _items });
+            } else {
+                sumslack.layoutNaviBar({ "title": _title });
             }
-            getUserInfo().then(user=>{
-               config.Config.cUser = user;
-               sumslack.getAuthToken(function(ret){
-                    console.log("==========current token:",ret);
+            getUserInfo().then(user => {
+                config.Config.cUser = user;
+                sumslack.getAuthToken(function (ret) {
+                    console.log("==========current token:", ret);
                     config.Config.token = ret;
-                    if(typeof cb === "function"){
+                    if (typeof cb === "function") {
                         cb();
                     }
-               });
+                });
             });
             //sumslack.getAllUser("",function(ret) {
             //    ret = JSON.parse(ret);
@@ -153,59 +153,68 @@ export function init(_title,_items,cb){
             //        config.Config.allUsers[_uid] = ret[i];
             //    }
             //});
-        }else{
-            if(typeof cb === "function"){
+        } else {
+            if (typeof cb === "function") {
                 cb();
             }
         }
-    }catch(e){
+    } catch (e) {
         console.log(e);
     }
     return sumslack;
 }
-export function getConfig(){
+export function getConfig() {
     return config.Config;
 }
-export function getToken(cb){
+export function getToken(cb) {
+    if (isDev()) {
+
+    }
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
     }
-    sumslack.getAuthToken(function(res){
-        if(typeof cb === "function"){
+    sumslack.getAuthToken(function (res) {
+        if (typeof cb === "function") {
             cb(res);
         }
     });
 }
-export function login(cb){
+export function isDev() {
+    return config.Config.DEV;
+}
+export function login(cb) {
+    if (isDev()) {
+        cb({ code: config.Config.testCode });
+        return;
+    }
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
     }
-    sumslack.getAuthToken(function(token){
-        console.log("***sumslack.js***",token);
-        sumslack.requestOauth(token,function(res){
-            if(typeof cb === "function"){
+    sumslack.getAuthToken(function (token) {
+        sumslack.requestWebOauth({ 'code': token, 'clientId': config.AppID }, function (res) {
+            if (typeof cb === "function") {
                 res = toJSON(res);
                 cb(res);
             }
         });
     });
 }
-export function isSumslackEnv(){
+export function isSumslackEnv() {
     return (typeof sumslack.layoutNaviBar != "undefined");
 }
-export function layoutNaviBar(param){
+export function layoutNaviBar(param) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
     }
     sumslack.layoutNaviBar(param);
 }
-export function getSumslack(){
+export function getSumslack() {
     return sumslack;
 }
-export function close(){
+export function close() {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
@@ -214,7 +223,7 @@ export function close(){
 }
 
 
-export function openNativeUI(param){
+export function openNativeUI(param) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
@@ -222,7 +231,7 @@ export function openNativeUI(param){
     sumslack.pushViewController(param);
 }
 
-export function openProfile(uid){
+export function openProfile(uid) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
@@ -230,12 +239,12 @@ export function openProfile(uid){
     sumslack.openProfile(uid);
 }
 
-export function makePhoneCall(phoneNumber){
+export function makePhoneCall(phoneNumber) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
     }
-    sumslack.makePhoneCall({'phoneNumber':phoneNumber});
+    sumslack.makePhoneCall({ 'phoneNumber': phoneNumber });
 }
 
 export function scanQrCode(cb) {
@@ -250,16 +259,16 @@ export function scanQrCode(cb) {
     });
 }
 
-export function share(param,cb) {
+export function share(param, cb) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
     }
     sumslack.shareWeixin({
-        title:param.title || "标题",
+        title: param.title || "标题",
         description: param.description || param.title,
-        url:param.url,
-        logo:param.logo || ""
+        url: param.url,
+        logo: param.logo || ""
     });
 }
 
@@ -271,7 +280,7 @@ export function refresh() {
     sumslack.refresh();
 }
 
-export function previewImage(param){
+export function previewImage(param) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
@@ -279,7 +288,7 @@ export function previewImage(param){
     sumslack.previewImage(param);
 }
 
-export function addGlobalEventListener(funcName,cb){
+export function addGlobalEventListener(funcName, cb) {
     globalEvent.addEventListener(funcName, function (e) {
         cb(e);
     });
@@ -293,7 +302,12 @@ export function addGlobalEventListener(funcName,cb){
   name:用户名
   telphone:电话
  */
-export function getUserInfo(){
+export function getUserInfo() {
+    if (isDev()) {
+        return new Promise((resolve) => {
+            resolve(config.Config.testUser);
+        });
+    }
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
@@ -305,17 +319,17 @@ export function getUserInfo(){
     });
 }
 
-export function uploadFile(filepath,cb){
+export function uploadFile(filepath, cb) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
     }
-    sumslack.uploadFile(function(ret) {
+    sumslack.uploadFile(function (ret) {
         cb(ret);
     });
 }
 
-export function showActionSheet(actionSheetParam,cb){
+export function showActionSheet(actionSheetParam, cb) {
     if (sumslack && isSumslackEnv()) {
         sumslack.showActionSheet(actionSheetParam, function (ret) {
             if (typeof cb === "function") {
@@ -327,10 +341,10 @@ export function showActionSheet(actionSheetParam,cb){
     }
 }
 
-export function chooseLocation(cb){
+export function chooseLocation(cb) {
     if (sumslack && isSumslackEnv()) {
-        sumslack.chooseLocation(function(ret) {
-            if(typeof cb === "function"){
+        sumslack.chooseLocation(function (ret) {
+            if (typeof cb === "function") {
                 cb(ret);
             }
         });
@@ -339,89 +353,89 @@ export function chooseLocation(cb){
     }
 }
 
-export function openLocation(_lat,_lot,building,address){
+export function openLocation(_lat, _lot, building, address) {
     if (sumslack && isSumslackEnv()) {
-        sumslack.openLocation({'lat':_lat,'lot':_lot,"building":building,"address":address});
+        sumslack.openLocation({ 'lat': _lat, 'lot': _lot, "building": building, "address": address });
     } else {
         alert(config.Config.notSupport);
     }
 }
 
-export function shareWeixin(title,url,description,logo){
+export function shareWeixin(title, url, description, logo) {
     if (sumslack && isSumslackEnv()) {
-        if(typeof(logo)!= "undefined")
-            sumslack.shareWeixin({'title':title,'description':description,"url":url,"logo":logo} );
+        if (typeof (logo) != "undefined")
+            sumslack.shareWeixin({ 'title': title, 'description': description, "url": url, "logo": logo });
         else
-            sumslack.shareWeixin({'title':title,'description':description,"url":url} );
-    }else{
-        alert(config.Config.notSupport);
-    }
-}
-export function navigateToEmojiPanel(title,placeholder,pageId,params){
-    var _url = config.getPageUrl(pageId);
-    if(typeof params === "object"){
-        for(var k in params){
-            if(_url.indexOf("?")>0){
-                _url += "&" + k + "=" + encodeURIComponent(params[k]);
-            }else{
-                _url += "?" + k + "=" + encodeURIComponent(params[k]);
-            }
-        }
-    }
-    _url = getBaseURL(this)+_url;
-    if (sumslack && isSumslackEnv()) {
-        sumslack.navigateToEmojiPanel({'url':_url,'title':title,'placeholder':placeholder});
+            sumslack.shareWeixin({ 'title': title, 'description': description, "url": url });
     } else {
         alert(config.Config.notSupport);
     }
 }
-export function navigateTo(pageId,params){
+export function navigateToEmojiPanel(title, placeholder, pageId, params) {
     var _url = config.getPageUrl(pageId);
-    if(typeof params === "object"){
-        for(var k in params){
-            if(_url.indexOf("?")>0){
+    if (typeof params === "object") {
+        for (var k in params) {
+            if (_url.indexOf("?") > 0) {
                 _url += "&" + k + "=" + encodeURIComponent(params[k]);
-            }else{
+            } else {
                 _url += "?" + k + "=" + encodeURIComponent(params[k]);
             }
         }
     }
-     _url = getBaseURL(this)+_url;
-    if (sumslack && isSumslackEnv()){
+    _url = getBaseURL(this) + _url;
+    if (sumslack && isSumslackEnv()) {
+        sumslack.navigateToEmojiPanel({ 'url': _url, 'title': title, 'placeholder': placeholder });
+    } else {
+        alert(config.Config.notSupport);
+    }
+}
+export function navigateTo(pageId, params) {
+    var _url = config.getPageUrl(pageId);
+    if (typeof params === "object") {
+        for (var k in params) {
+            if (_url.indexOf("?") > 0) {
+                _url += "&" + k + "=" + encodeURIComponent(params[k]);
+            } else {
+                _url += "?" + k + "=" + encodeURIComponent(params[k]);
+            }
+        }
+    }
+    _url = getBaseURL(this) + _url;
+    if (sumslack && isSumslackEnv()) {
         sumslack.navigateTo(_url);
-    }else{
+    } else {
         navigator.push({
             url: _url,
             animated: "false"
         }, event => {
-            
+
         });
     }
 
 
 }
 
-export function redirectTo(pageId,params){
+export function redirectTo(pageId, params) {
     var _url = config.getPageUrl(pageId);
-    if(typeof params === "object"){
-        for(var k in params){
-            if(_url.indexOf("?")>0){
+    if (typeof params === "object") {
+        for (var k in params) {
+            if (_url.indexOf("?") > 0) {
                 _url += "&" + k + "=" + encodeURIComponent(params[k]);
-            }else{
+            } else {
                 _url += "?" + k + "=" + encodeURIComponent(params[k]);
             }
         }
     }
-    console.log("======gotopage redirect:",_url);
-    _url = getBaseURL(this)+_url;
+    console.log("======gotopage redirect:", _url);
+    _url = getBaseURL(this) + _url;
     if (sumslack && isSumslackEnv()) {
         sumslack.redirectTo(_url);
-    }else{
+    } else {
         alert(config.Config.notSupport);
     }
 }
 
-export function setTitle(title){
+export function setTitle(title) {
     if (sumslack && isSumslackEnv()) {
         sumslack.setNavigationBarTitle(title);
     } else {
@@ -429,9 +443,9 @@ export function setTitle(title){
     }
 }
 
-export function selectContact(selectContactParam,callback){
+export function selectContact(selectContactParam, callback) {
     if (sumslack && isSumslackEnv()) {
-        sumslack.selectContact(selectContactParam,function(ret) {
+        sumslack.selectContact(selectContactParam, function (ret) {
             callback(ret);
         });
     } else {
@@ -439,18 +453,18 @@ export function selectContact(selectContactParam,callback){
     }
 }
 
-export function createGroup(group,callback){
+export function createGroup(group, callback) {
     if (sumslack && isSumslackEnv()) {
-        sumslack.createGroup(group,function(ret) {
+        sumslack.createGroup(group, function (ret) {
             callback(ret);
         });
     } else {
         alert(config.Config.notSupport);
     }
 }
-export function getLocation(cb){
+export function getLocation(cb) {
     if (sumslack && isSumslackEnv()) {
-        sumslack.getLocation(function(ret) {
+        sumslack.getLocation(function (ret) {
             cb(toJSON(ret));
         });
     } else {
@@ -458,18 +472,18 @@ export function getLocation(cb){
     }
 }
 
-export function chooseImage(count,type,cb){
-    if (!isSumslackEnv()){
+export function chooseImage(count, type, cb) {
+    if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
     }
-    sumslack.chooseImage(count,type,function(ret) {
-        if(typeof cb === 'function'){
+    sumslack.chooseImage(count, type, function (ret) {
+        if (typeof cb === 'function') {
             cb(ret);
         }
     });
 }
-export function uploadImage(filePath,cb){
+export function uploadImage(filePath, cb) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
@@ -480,19 +494,19 @@ export function uploadImage(filePath,cb){
         }
     });
 }
-export function downloadFile(url,cb) {
+export function downloadFile(url, cb) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
     }
-    sumslack.downloadFile(url,function(data){
+    sumslack.downloadFile(url, function (data) {
         if (typeof cb === 'function') {
             cb(data);
         }
     });
 }
 
-export function picker(fmt,param,cb) {
+export function picker(fmt, param, cb) {
     let type = 0;
     if (fmt === 'MMddhhmm' || fmt === 'mmddhhii') type = 1;
     else if (fmt === 'yyyyMMdd' || fmt === 'yyyymmdd') type = 2;
@@ -507,85 +521,85 @@ export function picker(fmt,param,cb) {
         'min': param.min || "",
         'max': param.max || "",
         'current': param.current || ""
-    },function(data){
+    }, function (data) {
         if (typeof cb === "function") {
             cb(data);
         }
     });
 }
-export function request(url,param){
-    return new Promise((resolve)=> {
-            Http.fetch(url, param).then(data => {
+export function request(url, param) {
+    return new Promise((resolve) => {
+        Http.fetch(url, param).then(data => {
             resolve(data);
         });
     });
 }
-export function sendMessage(type,typeId,msg){
+export function sendMessage(type, typeId, msg) {
     if (!isSumslackEnv()) {
         alert(config.Config.notSupport);
         return;
     }
-    sumslack.sendMessage(type,typeId,msg);
+    sumslack.sendMessage(type, typeId, msg);
 }
-export function confirm(msg,cb){
+export function confirm(msg, cb) {
     modal.confirm({
-            message: msg,
-            duration: 0.3
-        }, function (value) {
-            cb(value);
+        message: msg,
+        duration: 0.3
+    }, function (value) {
+        cb(value);
     });
 }
 
-export function toast(msg){
-    modal.toast({ message: msg});
+export function toast(msg) {
+    modal.toast({ message: msg });
 }
-export function setClipboardData(msg){
+export function setClipboardData(msg) {
     clipboard.setString(msg);
 }
-export function getClipboardData(cb){
-    clipboard.getString(function(ret) {
+export function getClipboardData(cb) {
+    clipboard.getString(function (ret) {
         cb(ret);
     });
 }
-export function print(obj){
-    if(typeof obj === "object"){
+export function print(obj) {
+    if (typeof obj === "object") {
         return JSON.stringify(obj);
-    }else{
+    } else {
         return obj;
     }
 }
-export function log(s,s2,s3){
-    if(typeof(s3)!="undefined")
-        console.log("***sumslack log***",s,s2,s3);
-    else if(typeof(s2)!="undefined"){
-        console.log("***sumslack log***",s,s2);
-    }else{
-        console.log("***sumslack log***",s);
+export function log(s, s2, s3) {
+    if (typeof (s3) != "undefined")
+        console.log("***sumslack log***", s, s2, s3);
+    else if (typeof (s2) != "undefined") {
+        console.log("***sumslack log***", s, s2);
+    } else {
+        console.log("***sumslack log***", s);
     }
 }
-export function toJSON(obj){
-    if(typeof obj === "string"){
-        if((obj.substring(0,1) === "{") && (obj.substring(obj.length-1,obj.length)==="}")){
+export function toJSON(obj) {
+    if (typeof obj === "string") {
+        if ((obj.substring(0, 1) === "{") && (obj.substring(obj.length - 1, obj.length) === "}")) {
             return JSON.parse(obj);
-        }else{
+        } else {
             return obj;
         }
-    }else{
+    } else {
         return obj;
     }
 }
-export function alert(msg){
+export function alert(msg) {
     modal.alert({
         message: msg,
         duration: 0.3
     });
 }
 
-export function clearStorage(){
+export function clearStorage() {
     storage.getAllKeys(event => {
         if (event.result === 'success') {
-            if(event.data && event.data.length>0){
-                for(var index in event.data){
+            if (event.data && event.data.length > 0) {
+                for (var index in event.data) {
                     storage.removeItem(event.data[index], event => {
                         console.log('delete value:', event.data[index]);
                     });
@@ -595,40 +609,40 @@ export function clearStorage(){
     });
 }
 
-export function setStorage(key,value,cb){
-    if(typeof value == "object"){
+export function setStorage(key, value, cb) {
+    if (typeof value == "object") {
         value = JSON.stringify(value);
     }
-    storage.setItem(key,value,function(e){
-        if(typeof cb === "function"){
+    storage.setItem(key, value, function (e) {
+        if (typeof cb === "function") {
             cb(e);
         }
     });
 }
 
-export function removeStorage(key,cb){
-    storage.removeItem(key,value,function(e){
-        if(typeof cb === "function"){
+export function removeStorage(key, cb) {
+    storage.removeItem(key, value, function (e) {
+        if (typeof cb === "function") {
             cb(e);
         }
     });
 }
 
-export function getStorage(key,cb,err){
-    storage.getItem(key,function(e){
-            if(e.result === "success"){
-                if(typeof cb === "function"){
-                    cb(toJSON(e.data));
-                }
-            }else{
-                if(typeof err === "function"){
-                    err(e);
-                }
+export function getStorage(key, cb, err) {
+    storage.getItem(key, function (e) {
+        if (e.result === "success") {
+            if (typeof cb === "function") {
+                cb(toJSON(e.data));
             }
+        } else {
+            if (typeof err === "function") {
+                err(e);
+            }
+        }
     });
 }
 
-export function prompt(msg,cb){
+export function prompt(msg, cb) {
     modal.prompt({
         message: msg,
         duration: 0.3
@@ -637,7 +651,7 @@ export function prompt(msg,cb){
     })
 }
 
-export function niceTime(time_stamp){
+export function niceTime(time_stamp) {
     time_stamp = time_stamp / 1000;
     var now_d = new Date();
     var now_time = now_d.getTime() / 1000; //获取当前时间的秒数
@@ -647,20 +661,16 @@ export function niceTime(time_stamp){
 
     var ct = now_time - time_stamp;
     var day = 0;
-    if (ct < 0)
-    {
-        f_time =  dateFormat(f_d,"yyyy-MM-dd hh:mm");
+    if (ct < 0) {
+        f_time = dateFormat(f_d, "yyyy-MM-dd hh:mm");
     }
-    else if (ct < 5)
-    {
+    else if (ct < 5) {
         f_time = '刚刚';
     }
-    else if (ct < 60)
-    {
+    else if (ct < 60) {
         f_time = Math.floor(ct) + '秒前';
     }
-    else if (ct < 3600)
-    {
+    else if (ct < 3600) {
         f_time = Math.floor(ct / 60) + '分钟前';
     }
     else if (ct < 86400)//一天
@@ -675,16 +685,15 @@ export function niceTime(time_stamp){
         else
             f_time = day + '天前';
     }
-    else
-    {
+    else {
         day = Math.floor(ct / 86400);
         f_time = day + '天前';
     }
     return f_time;
 }
 
-export function dateFormat(date,fmt) {
-    if(typeof(date) === "number"){
+export function dateFormat(date, fmt) {
+    if (typeof (date) === "number") {
         date = new Date(date);
     }
     var o = {
@@ -698,16 +707,16 @@ export function dateFormat(date,fmt) {
         "S+": date.getMilliseconds()             //毫秒
     };
     for (var k in o) {
-        if (new RegExp("(" + k + ")").test(fmt)){
-            if(k == "y+"){
+        if (new RegExp("(" + k + ")").test(fmt)) {
+            if (k == "y+") {
                 fmt = fmt.replace(RegExp.$1, ("" + o[k]).substr(4 - RegExp.$1.length));
             }
-            else if(k=="S+"){
+            else if (k == "S+") {
                 var lens = RegExp.$1.length;
-                lens = lens==1?3:lens;
-                fmt = fmt.replace(RegExp.$1, ("00" + o[k]).substr(("" + o[k]).length - 1,lens));
+                lens = lens == 1 ? 3 : lens;
+                fmt = fmt.replace(RegExp.$1, ("00" + o[k]).substr(("" + o[k]).length - 1, lens));
             }
-            else{
+            else {
                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
             }
         }

@@ -72,6 +72,10 @@
                 <text class="api-item-text">离线存取</text>
                 <image class="logo32" src="http://h5.sumslack.com/wx/right-arrow.png"></image>
             </div>
+            <div v-if="showApiListData" class="api-item" @click="callApi(901,api)">
+                <text class="api-item-text">清空缓存</text>
+                <image class="logo32" src="http://h5.sumslack.com/wx/right-arrow.png"></image>
+            </div>
 
             <text class="tip" @click="showApiList('showApiListSumslack')">SumslackUI</text>
             <div v-if="showApiListSumslack" :key="api.id" class="api-item" @click="callApi(api.id,api)"  v-for="api in apiListSumslack">
@@ -256,7 +260,7 @@ export default {
             logoUrl: 'http://h5.sumslack.com/logo120.png',
             apiListLogin:[
                 {id:1,title:"获取登录code码"},
-                {id:3,title:"获取登录token，需解密"},
+                {id:3,title:"获取AccessToken"},
                 {id:2,title:"获取当前用户信息"}
             ],
             apiListSumslack:[
@@ -322,7 +326,9 @@ export default {
                 {id:203,title:"预览图片"},
             ],
             apiListLocation:[
-                {id:251,title:"获取当前位置"}
+                {id:251,title:"获取当前位置"},
+                {id:252,title:"选择地点"},
+                {id:253,title:"导航到宁波市政府"}
             ],
             menuList:["编辑项目","删除项目","项目归档"]
         }
@@ -520,14 +526,10 @@ export default {
                     });
                     break;
                 case 154:
-                    Sumslack.share({
-                        title:"基于Vue2的在线出试卷小系统，开源已发布",
-                        url:"http://cxlh.iteye.com/blog/2399877",
-                        logo:"http://dl2.iteye.com/upload/attachment/0127/8169/e08cb2f7-5793-3479-a6bc-e65ac490f3b1.png",
-                        description:"一份在线面试的小系统,在线出卷，支持链接分享，小程序码扫描微信直接答题"
-                    },function(res){
-                      console.log('share:',res)
-                    });
+                    Sumslack.shareWeixin("基于Vue2的在线出试卷小系统，开源已发布"
+                        ,"http://cxlh.iteye.com/blog/2399877",
+                        "http://dl2.iteye.com/upload/attachment/0127/8169/e08cb2f7-5793-3479-a6bc-e65ac490f3b1.png",
+                        "一份在线面试的小系统,在线出卷，支持链接分享，小程序码扫描微信直接答题");
                     break;
                 case 201:
                     Sumslack.chooseImage(5,0,function(res){
@@ -549,10 +551,22 @@ export default {
                         });
                     });
                     break;
+                case 901:
+                    Sumslack.clearStorage();
+                    Sumslack.toast("清空成功！");
+                    break;    
                 case 251:
                     Sumslack.getLocation(function(pos){
                        Sumslack.alert(Sumslack.print(pos));
                     });
+                    break;
+                case 252:
+                    Sumslack.chooseLocation(function(data){
+                        Sumslack.alert(Sumslack.print(data));
+                    });
+                    break;
+                case 253:
+                    Sumslack.openLocation("29.86.245","121.624540","宁波市人民政府","浙江省宁波市鄞州区宁穿路2001号");
                     break;
                 default:
                     Sumslack.alert("接口编写中...");

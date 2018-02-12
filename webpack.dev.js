@@ -75,7 +75,7 @@ module.exports = function () {
       host: '0.0.0.0',
       port: '4081',
       historyApiFallback: true,
-      public: ip + ':8081',
+      public: ip + ':4081',
       watchOptions: {
         aggregateTimeout: 300,
         poll: 1000
