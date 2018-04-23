@@ -22,9 +22,10 @@ weex compile src/** dist
 <img src='http://wxapps.sumslack.com/demo2/preview.png' alt='我的'/>
 
 使用WeexPlayground扫描预览效果：
-
 <img src='http://wxapps.sumslack.com/demo2/demo.png' alt='扫描二维码预览效果'/>
-
 
 ### 常见问题
 npm rebuild node-sass --force
+端口被占用：
+netstat -aon | findstr 8082  
+taskkill /f -pid xxx

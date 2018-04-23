@@ -284,11 +284,14 @@ export default {
                 {id:105,title:"动画",pageid:"page.demo.animation"},
                 {id:106,title:"显示ActionSheet菜单"},
                 {id:109,title:"设置页面标题"},
-                {id:107,title:"页面跳转",pageid:"page.demo.animation"},
+                {id:107,title:"页面跳转",pageid:"page.index"},
                 {id:108,title:"页面跳转不返回"},
                 {id:110,title:"关闭当前窗口"},
                 {id:111,title:"打开Native界面"},
-                {id:112,title:"右上角多级菜单"}
+                {id:112,title:"右上角多级菜单"},
+                
+                {id:113,title:"关闭当前页"},
+                {id:114,title:"刷新当前页"}
             ],
             apiListComplexUI:[
                 {id:801,title:"富文本显示",pageid:"page.demo.rich"},
@@ -321,7 +324,8 @@ export default {
                 {id:154,title:"分享功能"},
             ],
             apiListMedia:[
-                {id:201,title:"拍照/相册选图片"},
+                {id:201,title:"相册选图片"},
+                {id:208,title:"拍照"},
                 {id:202,title:"录音"},
                 {id:203,title:"预览图片"},
             ],
@@ -442,7 +446,7 @@ export default {
                     break;
                 case 54:
                     Sumslack.scanQrCode(function(ret){
-                        console.log("scan")
+                        Sumslack.alert(Sumslack.print(ret));
                     });
                     break;
                 case 100:
@@ -491,6 +495,12 @@ export default {
                         Sumslack.alert("hellow!");
                     });
                     break;
+                case 113:
+                    Sumslack.close();
+                    break;
+                case 114:
+                    Sumslack.refresh();
+                    break;
                 case 151:
                     Sumslack.request("http://wx.sumslack.com/restful/stat/stat.jhtml",{
                         v:"qbapp"
@@ -500,6 +510,7 @@ export default {
                     break;
                 case 152:
                     Sumslack.chooseImage(1,0,function(res){
+                        Sumslack.toast(Sumslack.print(res));
                         res = Sumslack.toJSON(res);
                         let _imgs = res.list;
                         if(_imgs && _imgs.length === 1){    
@@ -521,8 +532,8 @@ export default {
                     });
                     break;
                 case 153:
-                    Sumslack.downloadFile('http://wxapps.sumslack.com/demo2/index.js',function(res){
-                        Sumslack.alert(Sumslack.print(res));
+                    Sumslack.downloadFile('http://wxapps.sumslack.com/demo2/demo.png',function(res){
+                        Sumslack.toast(Sumslack.print(res));
                     });
                     break;
                 case 154:
@@ -532,7 +543,12 @@ export default {
                         "一份在线面试的小系统,在线出卷，支持链接分享，小程序码扫描微信直接答题");
                     break;
                 case 201:
-                    Sumslack.chooseImage(5,0,function(res){
+                    Sumslack.chooseImage(3,0,function(res){
+                        Sumslack.alert(Sumslack.print(res));
+                    });
+                    break;
+                case 208:
+                    Sumslack.chooseImage(1,1,function(res){
                         Sumslack.alert(Sumslack.print(res));
                     });
                     break;
@@ -566,7 +582,7 @@ export default {
                     });
                     break;
                 case 253:
-                    Sumslack.openLocation("29.86.245","121.624540","宁波市人民政府","浙江省宁波市鄞州区宁穿路2001号");
+                    Sumslack.openLocation("29.86245","121.624540","宁波市人民政府","浙江省宁波市鄞州区宁穿路2001号");
                     break;
                 default:
                     Sumslack.alert("接口编写中...");

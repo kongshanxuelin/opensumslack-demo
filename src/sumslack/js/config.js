@@ -1,7 +1,7 @@
 module.exports = {
     "DEV":true,
     "pages":[
-        {id:"page.index",url:"app.weex.js"},
+        {id:"page.index",url:"index.weex.js"},
         {id:"page.demo.popup",url:"weexui.weex.js"},
         {id: "page.demo.animation", url:"demo-animation.js"},
         {id:"page.demo.rich",url:"demo-rich.weex.js"},
@@ -46,7 +46,7 @@ module.exports = {
                 if(this.DEV){
                     return this.pages[i].url;
                 }else{
-                    var _url = this.pages[i].url;
+                    var _url = this.pages[i].url + "";
                     if(_url.endsWith(".weex.js")){
                         _url = _url.substring(0, _url.lastIndexOf(".weex")) + _url.substring(_url.lastIndexOf(".weex")+5,_url.length);
                     }
