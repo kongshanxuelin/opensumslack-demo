@@ -32,8 +32,37 @@ module.exports = {
         { id: "page.demo.meituan", url: "meituan/demo-meituan.weex.js" },
         { id: "page.demo.weixin", url: "weixin/demo-weixin.weex.js" },
         { id: "page.demo.xiaomi", url: "xiaomi/demo-xiaomi.weex.js" },
-        { id: "page.demo.form", url: "form/demo-form.weex.js" }    
+        { id: "page.demo.form", url: "form/demo-form.weex.js" },
         
+        //fin-index project
+        {
+            id: "fin.index",
+            url: "finIndex/index.weex.js"
+        },
+        {
+            id: "fin.tab.event",
+            url: "finIndex/tab-event.weex.js"
+        },
+        {
+            id: "fin.tab.event.detail",
+            url: "finIndex/tab-event-detail.weex.js"
+        },
+        {
+            id: "fin.detail.bond",
+            url: "finIndex/detail-bond.weex.js"
+        },
+        {
+            id: "fin.detail.bond.compare",
+            url: "finIndex/detail-bond-compare.weex.js"
+        },
+        {
+            id: "fin.detail.macro",
+            url: "finIndex/detail-macro.weex.js"
+        },
+        {
+            id: "fin.favlist",
+            url: "finIndex/favlist.weex.js"
+        }
 
     ],
     Config:{
@@ -50,7 +79,6 @@ module.exports = {
                     if(_url.endsWith(".weex.js")){
                         _url = _url.substring(0, _url.lastIndexOf(".weex")) + _url.substring(_url.lastIndexOf(".weex")+5,_url.length);
                     }
-                    console.log("xxxx:",_url)
                     return _url;
                 }
             }

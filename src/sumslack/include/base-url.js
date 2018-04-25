@@ -22,6 +22,16 @@ exports.getBaseURL = function () {
     // }
 
     var bundleUrl = weex.config.bundleUrl;
+    //去除应用名
+    if (bundleUrl.indexOf("http://") == 0 || bundleUrl.indexOf("https://")==0){
+        if (bundleUrl.indexOf("http://")==0){
+            bundleUrl = bundleUrl.substring("http://".length, bundleUrl.length);
+            bundleUrl = "http://" + bundleUrl.substring(0, bundleUrl.indexOf("/") + 1)
+        } else if (bundleUrl.indexOf("https://") == 0) {
+            bundleUrl = bundleUrl.substring("https://".length, bundleUrl.length);
+            bundleUrl = "https://" + bundleUrl.substring(0, bundleUrl.indexOf("/") + 1)
+        }
+    }
     console.log("********bundleUrl*************:",bundleUrl);
     var nativeBase;
     var isAndroidAssets = weex.config.env.platform.toLowerCase().indexOf("android")>=0;

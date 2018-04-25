@@ -113,6 +113,11 @@
                 :has-arrow="true"
                 @wxcCellClicked="callApi('xiaomi',{pageid:'page.demo.xiaomi'})"
                 :has-top-border="true"></wxc-cell>
+            <wxc-cell title="金融词条UI"
+                desc="金融词条App包含的App UI"
+                :has-arrow="true"
+                @wxcCellClicked="callApi('finIndex',{pageid:'fin.index'})"
+                :has-top-border="true"></wxc-cell>
           </div>
         </scroller>
       </div>       
