@@ -1,52 +1,69 @@
 <template>
 <div class="wxc-demo">
-  <div class="filter-container flex-row" v-if="showFilter">
-    <div class="filterbox flex-column">
-      <text class="text text-info-padding">国家：</text>
+
+  <div class="tab">
+    <div class="flex-column flex-center flex-middle">
+        <text @click="tabClick(0)" class="text-info-padding" :class="[tabIndex==0?'text-info-selected':'text-info']">财经指标</text>
+        <text @click="tabClick(1)" class="text-info-padding" :class="[tabIndex==1?'text-info-selected':'text-info']">财经事件</text>
+        <text @click="tabClick(2)" class="text-info-padding" :class="[tabIndex==2?'text-info-selected':'text-info']">节假日</text>
+    </div>
+  </div>
+  <div class="tab-container" v-if="tabIndex==0">
+    <div class="filter-container flex-row" v-if="showFilter">
+      <div class="filterbox flex-column">
+        <text class="text text-info-padding">国家：</text>
+        <div class="flex-column">
+          <text class="text-info-selected text-info-padding">全部</text>
+          <text class="text-info text-info-padding">中国</text>
+          <text class="text-info text-info-padding">美国</text>
+          <text class="text-info text-info-padding">欧洲</text>
+          <text class="text-info text-info-padding">东亚</text>
+        </div>
+      </div>
+    </div> 
+    <div class="flex-row-right">
+        <!-- iconfont不支持动态图标，会被显示成字符串，暂时用v-if代替 -->
+        <text class="iconfont" @click="collapseBar" v-if="showFilter">&#xe777;</text>
+        <text class="iconfont" @click="collapseBar" v-else>&#xe778;</text>    
+    </div> 
+    <div class="wrapper">
       <div class="flex-column">
-        <text class="text-info-selected text-info-padding">全部</text>
-        <text class="text-info text-info-padding">中国</text>
-        <text class="text-info text-info-padding">美国</text>
-        <text class="text-info text-info-padding">欧洲</text>
-        <text class="text-info text-info-padding">东亚</text>
+        <div class="flex-row" style="width:106px" v-for="item in [1,2,3,4,5,6,7]">
+          <text class="text-day-week">周{{item}}</text>
+          <text class="text-day-date">04-0{{item}}</text>
+        </div>
       </div>
-    </div>
-    <div class="filterbox flex-column">
-      <text class="text text-info-padding">类型：</text>
-      <div class="flex-column">
-        <text class="text-info-selected text-info-padding">全部</text>
-        <text class="text-info text-info-padding">财经指标</text>
-        <text class="text-info text-info-padding">财经指标</text>
-        <text class="text-info text-info-padding">节假日</text>
-      </div>
-    </div>
-  </div> 
-  <div class="flex-row-right">
-      <!-- iconfont不支持动态图标，会被显示成字符串，暂时用v-if代替 -->
-      <text class="iconfont" @click="collapseBar" v-if="showFilter">&#xe777;</text>
-      <text class="iconfont" @click="collapseBar" v-else>&#xe778;</text>    
-  </div> 
-  <div class="wrapper">
-    <div class="flex-column">
-      <div class="flex-row" style="width:106px" v-for="item in [1,2,3,4,5,6,7]">
-        <text class="text-day-week">周{{item}}</text>
-        <text class="text-day-date">04-0{{item}}</text>
-      </div>
-    </div>
-  </div> 
-  <scroller :class="['main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
-    <refresher @loadingDown="loadingDown"></refresher>
-    <tab-event-item @click.native="doDetail(item)" v-for="(item,index) in eventItems" :row-index="index" :key="item.id"></tab-event-item>
-    <loading class="loading" @loading="onloading" :display="showLoading">
-        <text class="indicator">...</text>
-    </loading>
-  </scroller>
+    </div> 
+    <scroller :class="['main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
+      <refresher @loadingDown="loadingDown"></refresher>
+      <tab-event-item @click.native="doDetail(item)" v-for="(item,index) in eventItems" :row-index="index" :key="item.id"></tab-event-item>
+      <loading class="loading" @loading="onloading" :display="showLoading">
+          <text class="indicator">...</text>
+      </loading>
+    </scroller>
+  </div>
+  <div class="tab-container" v-if="tabIndex==1">
+    <text class="text">这里显示财经事件</text>
+  </div>
+  <div class="tab-container" v-if="tabIndex==2">
+    <text class="text">这里显示节假日</text>
+  </div>
 </div>
 </template>
 <style scoped src='../css/sumslack.css' />
 <style scoped>
   .filter-container {
+  }
+  .tab {
     margin-top:30px;
+    text-align: center;
+    width:750px;
+    margin-bottom: 20px;
+    margin-left: 120px;
+    margin-right: 120px;
+  }
+  .tab-container {
+    flex:1;
   }
   .filterbox {
     margin:10px auto;
@@ -110,6 +127,7 @@
     components: { WxcButton, WxcCell,refresher,TabEventItem  },
     data: () => ({
       showFilter:true,
+      tabIndex:0,
       customStyles: {
         width: '120px',
         height: '50px',
@@ -176,6 +194,9 @@
       });
     },
     methods: {
+      tabClick(index){
+        this.tabIndex = index;
+      },
       collapseBar(){
          this.showFilter = !this.showFilter;
       },
