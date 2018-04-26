@@ -27,9 +27,6 @@
   </wxc-cell>
   </cell>
 </list>
- 
-     
- 
 </div>
 </template>
 <script>
@@ -85,15 +82,6 @@
 </script>
 <style src='../css/sumslack.css' />
 <style scoped>
-  .wxc-demo {
-    width: 750px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background-color: #0A0F0E;
-  }
  .container {
     flex: 1;
   }
