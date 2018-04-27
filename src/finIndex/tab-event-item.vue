@@ -8,8 +8,8 @@
     <div class="info">
       <div class="info-item">
         <div class="flex-column"> 
-          <text class="text-info mr40">美国</text> 
-          <text class="text-info">新屋销售年化率(%)</text>
+          <text class="text-info mr40">{{country}}</text> 
+          <text class="text-info">{{indexName}}</text>
         </div>
       </div>
       <div class="info-item">
@@ -69,6 +69,14 @@
           rowIndex: {
             type: Number,
             default: 0
+          },
+          country:{
+            type: String,
+            default:""
+          },
+          indexName:{
+            type: String,
+            default:""
           }
         },
         data () {

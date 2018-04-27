@@ -10,12 +10,19 @@ OpenSumslack支持的接口Demo程序
 
 ### 运行项目
 
-weex src --entry src/index.vue
+```weex src --entry src/index.vue```
+
+最新版本的weex应该运行:
+
+```weex preview src --entry src/index.vue```
+
 
 ### 打包项目
 
+```
 weex compile src/*.vue dist
 weex compile src/** dist
+```
 
 ### 效果图
 
@@ -26,6 +33,7 @@ weex compile src/** dist
 OpenSumslack安卓版下载：
 
 ![OpenSumslack安卓版下载](http://wxapps.sumslack.com/opensumslack/dl_opensumslack.jpg)
+> 注：如果无法下载，直接在浏览器输入(http://wxapps.sumslack.com/opensumslack/openSumslack.apk)
 
 OpenSumslack iOS版下载：
 
@@ -33,7 +41,19 @@ OpenSumslack iOS版下载：
 
 
 ### 常见问题
-npm rebuild node-sass --force
-端口被占用：
+
+- sass报错
+```npm rebuild node-sass --force```
+
+- 端口被占用：
+
+```
 netstat -aon | findstr 8082  
 taskkill /f -pid xxx
+```
+
+- 安装weex时报C++编译错误
+
+```
+npm install --global --production windows-build-tools
+```

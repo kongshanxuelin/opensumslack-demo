@@ -36,7 +36,7 @@
     </div> 
     <scroller :class="['main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
       <refresher @loadingDown="loadingDown"></refresher>
-      <tab-event-item @click.native="doDetail(item)" v-for="(item,index) in eventItems" :row-index="index" :key="item.id"></tab-event-item>
+      <tab-event-item @click.native="doDetail(item)" country="美国" index-name="新屋销售年化率1(%)" v-for="(item,index) in eventItems" :row-index="index" :key="item.id"></tab-event-item>
       <loading class="loading" @loading="onloading" :display="showLoading">
           <text class="indicator">...</text>
       </loading>
@@ -225,7 +225,8 @@
           this.eventItems.push({id:13,title:"test12"});
       },
       doDetail(item){
-        Sumslack.toast("goto page:"+item.title);
+        //Sumslack.toast("goto page:"+item.title);
+        Sumslack.navigateTo("fin.tab.event.detail",{a:11});
       }
     }
   };

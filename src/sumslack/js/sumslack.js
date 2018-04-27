@@ -401,6 +401,7 @@ export function navigateTo(pageId, params) {
         }
     }
     _url = getBaseURL(this) + _url;
+    toast("go2page:" + _url);
     if (sumslack && isSumslackEnv()) {
         sumslack.navigateTo(_url);
     } else {

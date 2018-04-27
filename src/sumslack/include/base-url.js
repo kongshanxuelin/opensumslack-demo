@@ -36,15 +36,14 @@ exports.getBaseURL = function () {
     var nativeBase;
     var isAndroidAssets = weex.config.env.platform.toLowerCase().indexOf("android")>=0;
     var isiOSAssets = weex.config.env.platform.toLowerCase().indexOf("ios")>=0;
-    if (isAndroidAssets) {
+    if (isAndroidAssets && (bundleUrl.indexOf("http://") != 0 && bundleUrl.indexOf("https://") != 0)) {
         nativeBase = 'file://assets/';
     }
-    else if (isiOSAssets) {
+    else if (isiOSAssets && (bundleUrl.indexOf("http://") != 0 && bundleUrl.indexOf("https://") != 0)) {
         // file:///var/mobile/Containers/Bundle/Application/{id}/WeexDemo.app/
         // file:///Users/{user}/Library/Developer/CoreSimulator/Devices/{id}/data/Containers/Bundle/Application/{id}/WeexDemo.app/
         nativeBase = bundleUrl.substring(0, bundleUrl.lastIndexOf('/') + 1);
-    }
-    else {
+    }else {
         var host = 'localhost:12580';
         var matches = /\/\/([^\/]+?)\//.exec(weex.config.bundleUrl);
         if (matches && matches.length >= 2) {
