@@ -19,7 +19,12 @@
 }
 
 .iconfont {
-    font-family: iconfont;
+  font-family: iconfont;
+  color:#FFEBC8;
+}
+.iconfont-selected {
+  font-family: iconfont;
+  color:#FE900D;
 }
 
 .plr10{
@@ -28,6 +33,46 @@
 }
 .mr40 {
   margin-right: 40px;
+}
+
+.input {
+  background-color: #0E1A18;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #193D37;
+  border-radius: 2px;
+  padding:10px;
+  color: #868C8B;
+}
+
+.panel {
+  width: 720px;
+  margin-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-direction: column;
+  justify-content: center;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #193D37;
+  background-color: #0A0F0E;
+}
+
+.textcenter{
+  text-align: center;
+}
+
+.panel-header {
+  background-color: #172422;
+  font-size: 30px;
+  color: #F9C152;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.panel-body {
+
 }
 
 /*

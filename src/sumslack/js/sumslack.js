@@ -401,7 +401,7 @@ export function navigateTo(pageId, params) {
         }
     }
     _url = getBaseURL(this) + _url;
-    toast("go2page:" + _url);
+    //toast("go2page:" + _url);
     if (sumslack && isSumslackEnv()) {
         sumslack.navigateTo(_url);
     } else {
@@ -427,7 +427,7 @@ export function redirectTo(pageId, params) {
             }
         }
     }
-    console.log("======gotopage redirect:", _url);
+    //console.log("======gotopage redirect:", _url);
     _url = getBaseURL(this) + _url;
     if (sumslack && isSumslackEnv()) {
         sumslack.redirectTo(_url);
