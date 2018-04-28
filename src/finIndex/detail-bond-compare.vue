@@ -13,7 +13,7 @@
     </div>
   
     <text class="iconfont icon-search" @click="addBondCompare">&#xe6e0;</text>
-    
+
   </div>  
  
   
@@ -35,7 +35,7 @@
             <text class="w250 prop_value">{{item.v4}}</text>
           </div>
         </scroller>
-      </div>   
+      </div>      
     </scroller>
   
 
@@ -43,6 +43,10 @@
 </template>
 <style scoped src='../css/sumslack.css' />
 <style scoped>
+.test{
+  display: flex;
+  flex-direction:row;
+}
 .container {
   margin-top:30px;
   padding-left:10px;
@@ -68,6 +72,7 @@
   flex:1;
   margin-top:20px;
   padding: 8px;
+  flex-direction: row;
 }
 .prop_name {
   color: #8F9598;

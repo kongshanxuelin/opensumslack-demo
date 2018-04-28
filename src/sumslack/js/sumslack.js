@@ -136,23 +136,20 @@ export function init(_title, _items, cb) {
             } else {
                 sumslack.layoutNaviBar({ "title": _title });
             }
-            getUserInfo().then(user => {
-                config.Config.cUser = user;
-                sumslack.getAuthToken(function (ret) {
-                    console.log("==========current token:", ret);
-                    config.Config.token = ret;
-                    if (typeof cb === "function") {
-                        cb();
-                    }
+            if (config.Config.allowAnonymous){
+                cb();
+            }else{
+                getUserInfo().then(user => {
+                    config.Config.cUser = user;
+                    sumslack.getAuthToken(function (ret) {
+                        console.log("==========current token:", ret);
+                        config.Config.token = ret;
+                        if (typeof cb === "function") {
+                            cb();
+                        }
+                    });
                 });
-            });
-            //sumslack.getAllUser("",function(ret) {
-            //    ret = JSON.parse(ret);
-            //    for(var i in ret){
-            //        var _uid = ret[i].userId.replace(/user\_/g,"");
-            //        config.Config.allUsers[_uid] = ret[i];
-            //    }
-            //});
+            }
         } else {
             if (typeof cb === "function") {
                 cb();
@@ -289,6 +286,8 @@ export function previewImage(param) {
 }
 
 export function addGlobalEventListener(funcName, cb) {
+    //globalEvent.removeEventListener(funcName);
+    //toast("reg:"+funcName);
     globalEvent.addEventListener(funcName, function (e) {
         cb(e);
     });
