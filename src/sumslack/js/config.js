@@ -1,8 +1,9 @@
 module.exports = {
+    "DEV":true,
     "pages":[
         {id:"page.index",url:"index.weex.js"},
         {id:"page.demo.popup",url:"weexui.weex.js"},
-        {id: "page.demo.animation", url:"demo-animation.js"},
+        {id: "page.demo.animation", url:"demo-animation.weex.js"},
         {id:"page.demo.rich",url:"demo-rich.weex.js"},
         {id: "page.demo.simpleflow", url:"demo-simpleflow.weex.js"},
         {id: "page.demo.tags", url: "demo-tags.weex.js" },
@@ -36,31 +37,31 @@ module.exports = {
         //fin-index project
         {
             id: "fin.index",
-            url: "finIndex/index.weex.js"
+            url: "dist/finIndex/index.weex.js"
         },
         {
             id: "fin.tab.event",
-            url: "finIndex/tab-event.weex.js"
+            url: "dist/finIndex/tab-event.weex.js"
         },
         {
             id: "fin.tab.event.detail",
-            url: "finIndex/tab-event-detail.weex.js"
+            url: "dist/finIndex/tab-event-detail.weex.js"
         },
         {
             id: "fin.detail.bond",
-            url: "finIndex/detail-bond.weex.js"
+            url: "dist/finIndex/detail-bond.weex.js"
         },
         {
             id: "fin.detail.bond.compare",
-            url: "finIndex/detail-bond-compare.weex.js"
+            url: "dist/finIndex/detail-bond-compare.weex.js"
         },
         {
             id: "fin.detail.macro",
-            url: "finIndex/detail-macro.weex.js"
+            url: "dist/finIndex/detail-macro.weex.js"
         },
         {
             id: "fin.favlist",
-            url: "finIndex/favlist.weex.js"
+            url: "dist/finIndex/favlist.weex.js"
         }
 
     ],

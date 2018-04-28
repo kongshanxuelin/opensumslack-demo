@@ -1,18 +1,13 @@
 <template>
 <div class="wxc-demo">
   <scroller class="scroller">
-     <text>财经事件Weex页面，待开发</text>
+     <text class="text">财经事件Weex页面，待开发</text>
   </scroller>
 </div>
 </template>
 <style scoped>
-  .wxc-demo {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background-color: #ffffff;
+  .text {
+    color:red;
   }
   
 </style>

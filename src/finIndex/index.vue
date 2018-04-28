@@ -51,13 +51,20 @@
   }
 </style>
 <script>
-  import { WxcButton, WxcCell } from 'weex-ui';
   const Sumslack = require("../sumslack/js/sumslack.js");
+  import { WxcButton, WxcCell } from 'weex-ui';
   module.exports = {
     components: { WxcButton, WxcCell  },
     data: () => ({
 
     }),
+    created() {
+      Sumslack.init("金融词条UI",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
+          Sumslack.addGlobalEventListener("refreshPage",function(){
+              Sumslack.refresh();
+          });
+      });
+    },
     computed: {
       
     },
