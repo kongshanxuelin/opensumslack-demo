@@ -155,8 +155,8 @@
       isFav:true,
       bond:{
         base:[
-          {propName:"债券简称",propValue:"xxx"},
-          {propName:"债券全称",propValue:"2015年贵阳公路桥梁工程有限公司公司债券"},
+          {propName:"债券简称",propValue:""},
+          {propName:"债券全称",propValue:""},
           {propName:"主体评级/债项评级",propValue:"AA/AAA"},
           {propName:"债券类型",propValue:"地方企业债 | 城投债"},
           {propName:"债券期限",propValue:"7.0000Y"},
@@ -170,7 +170,7 @@
         ],
         rate:[
           {propName:"利率方式",propValue:"固定利率"},
-          {propName:"票面利率",propValue:"4.17%"},
+          {propName:"票面利率",propValue:""},
           {propName:"发行收益	",propValue:"4.17%"},
           {propName:"发行价格	",propValue:"100.00元"},
           {propName:"付息频率	",propValue:"年度"},
@@ -209,18 +209,25 @@
                       self.bond.base[6].propValue= bondBean.shortName;
                       self.bond.base[7].propValue= bondBean.shortName;
                       let mun = "";
-                      data.underWriterInstitutionBeanListForMUN.array.forEach(forMun => {
+                      data.underWriterInstitutionBeanListForMUN.forEach(forMun => {
                         mun = mun + forMun.shortNameC;
                       });
                       self.bond.base[8].propValue= mun;
                       let ung = "";
-                      data.underWriterInstitutionBeanListForUNG.array.forEach(forUng => {
+                      data.underWriterInstitutionBeanListForUNG.forEach(forUng => {
                         ung = ung + forUng.shortNameC;
                       });
                       self.bond.base[9].propValue= ung;
                       self.bond.base[10].propValue= bondBean.ratingAugment;
                       self.bond.base[11].propValue= bondBean.warranterName;
-                        Sumslack.alert('收到网络响应：' + Sumslack.print(data));
+
+                      self.bond.rate[0].propValue= bondBean.couponRateSpread+"%";
+                      self.bond.rate[1].propValue= bondBean.couponRateSpread+"%";
+                      self.bond.rate[2].propValue= bondBean.couponRateSpread+"%";
+                      self.bond.rate[3].propValue= bondBean.couponRateSpread+"%";
+                      self.bond.rate[4].propValue= bondBean.couponRateSpread+"%";
+                      self.bond.rate[5].propValue= bondBean.couponRateSpread+"%";
+                      //  Sumslack.alert('收到网络响应：' + Sumslack.print(data));
                     });
     },
     methods: {
