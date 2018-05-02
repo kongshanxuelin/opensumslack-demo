@@ -186,12 +186,42 @@
       
     },
     created() {
+      let self = this;
       util.initIconFont();
       Sumslack.init("xxx债券",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();
           });
       });
+      Sumslack.request("http://192.168.31.98:9191/bond/detail/1580243",{
+                    }).then(data => {
+                      let bondBean = data.bondBean;
+                      self.bond.base[0].propValue= bondBean.shortName;
+                      self.bond.base[1].propValue= bondBean.fullName;
+                      if(data.bondRatingBeanList&&data.bondRatingBeanList.length>0){
+                          self.bond.base[2].propValue= data.bondRatingBeanList[0].bondRating;
+                      }else{
+                          self.bond.base[2].propValue= "";
+                      }
+                      self.bond.base[3].propValue= bondBean.bondType;
+                      self.bond.base[4].propValue= bondBean.shortName;
+                      self.bond.base[5].propValue= bondBean.shortName;
+                      self.bond.base[6].propValue= bondBean.shortName;
+                      self.bond.base[7].propValue= bondBean.shortName;
+                      let mun = "";
+                      data.underWriterInstitutionBeanListForMUN.array.forEach(forMun => {
+                        mun = mun + forMun.shortNameC;
+                      });
+                      self.bond.base[8].propValue= mun;
+                      let ung = "";
+                      data.underWriterInstitutionBeanListForUNG.array.forEach(forUng => {
+                        ung = ung + forUng.shortNameC;
+                      });
+                      self.bond.base[9].propValue= ung;
+                      self.bond.base[10].propValue= bondBean.ratingAugment;
+                      self.bond.base[11].propValue= bondBean.warranterName;
+                        Sumslack.alert('收到网络响应：' + Sumslack.print(data));
+                    });
     },
     methods: {
       goSearchResult(){
