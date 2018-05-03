@@ -158,27 +158,25 @@
           {propName:"债券简称",propValue:""},
           {propName:"债券全称",propValue:""},
           {propName:"主体评级/债项评级",propValue:"AA/AAA"},
-          {propName:"债券类型",propValue:"地方企业债 | 城投债"},
-          {propName:"债券期限",propValue:"7.0000Y"},
-          {propName:"剩余期限",propValue:"4.50Y"},
-          {propName:"含权类型",propValue:"普通债券"},
-          {propName:"还本方式",propValue:"提前还本"},
-          {propName:"主承销商",propValue:"中信建投证券股份有限公司 "},
-          {propName:"承销团",propValue:"东海证券股份有限公司  国信证券股份有限公司 "},
-          {propName:"担保方式	",propValue:"保证担保"},
-          {propName:"担保人	",propValue:"中债信用增进投资股份有限公司"}
+          {propName:"债券类型",propValue:""},
+          {propName:"债券期限",propValue:""},
+          {propName:"剩余期限",propValue:""},
+          {propName:"含权类型",propValue:""},
+          {propName:"还本方式",propValue:""},
+          {propName:"主承销商",propValue:""},
+          {propName:"承销团",propValue:""},
+          {propName:"担保方式	",propValue:""},
+          {propName:"担保人	",propValue:""}
         ],
         rate:[
-          {propName:"利率方式",propValue:"固定利率"},
+          {propName:"利率方式",propValue:""},
           {propName:"票面利率",propValue:""},
           {propName:"发行收益	",propValue:"4.17%"},
-          {propName:"发行价格	",propValue:"100.00元"},
-          {propName:"付息频率	",propValue:"年度"},
-          {propName:"计息频率	",propValue:"年度"}
+          {propName:"发行价格	",propValue:""},
+          {propName:"付息频率	",propValue:""},
+          {propName:"计息频率	",propValue:""}
         ],
         market:[
-          {c1:"银行间债券市场",c2:"1580243",c3:"15贵阳路桥债",c4:"--"},
-          {c1:"上海证券交易所",c2:"127282.SH",c3:"15贵路桥",c4:"0.53010"}
         ]
       }
     }),
@@ -204,10 +202,10 @@
                           self.bond.base[2].propValue= "";
                       }
                       self.bond.base[3].propValue= bondBean.bondType;
-                      self.bond.base[4].propValue= bondBean.shortName;
-                      self.bond.base[5].propValue= bondBean.shortName;
-                      self.bond.base[6].propValue= bondBean.shortName;
-                      self.bond.base[7].propValue= bondBean.shortName;
+                      self.bond.base[4].propValue= bondBean.maturityTerm+bondBean.termUnit;
+                      self.bond.base[5].propValue= bondBean.leftTime;
+                      self.bond.base[6].propValue= bondBean.optionType;
+                      self.bond.base[7].propValue= bondBean.redemptionNo?"提前还本":"到期一次还本";
                       let mun = "";
                       data.underWriterInstitutionBeanListForMUN.forEach(forMun => {
                         mun = mun + forMun.shortNameC;
@@ -220,13 +218,28 @@
                       self.bond.base[9].propValue= ung;
                       self.bond.base[10].propValue= bondBean.ratingAugment;
                       self.bond.base[11].propValue= bondBean.warranterName;
-
-                      self.bond.rate[0].propValue= bondBean.couponRateSpread+"%";
-                      self.bond.rate[1].propValue= bondBean.couponRateSpread+"%";
+                      self.bond.rate[0].propValue= bondBean.couponType;
+                      self.bond.rate[1].propValue= bondBean.couponRateSpread?bondBean.couponRateSpread+"%":"--";
                       self.bond.rate[2].propValue= bondBean.couponRateSpread+"%";
-                      self.bond.rate[3].propValue= bondBean.couponRateSpread+"%";
-                      self.bond.rate[4].propValue= bondBean.couponRateSpread+"%";
-                      self.bond.rate[5].propValue= bondBean.couponRateSpread+"%";
+                      self.bond.rate[3].propValue= bondBean.issuePrice+"元";
+                      self.bond.rate[4].propValue= bondBean.couponFrequency;
+                      self.bond.rate[5].propValue= bondBean.compoundFrequency;
+                      data.bondListInfoBeanList.forEach(info => {
+                          let c = {};
+                          if(info.listedMarket=="CIB"){
+                            c.c1="银行间债券市场";
+                          }else if(info.listedMarket=="SSE"){
+                            c.c1="上海证券交易所";
+                          }else if(info.listedMarket=="SZE"){
+                            c.c1="深证证券交易所";
+                          }else{
+                            c.c1="";
+                          }
+                          c.c2=info.bondId;
+                          c.c3=info.shortName;
+                          c.c4=info.zyb?info.zyb:"--";
+                          self.bond.market.push(c);
+                      });
                       //  Sumslack.alert('收到网络响应：' + Sumslack.print(data));
                     });
     },
