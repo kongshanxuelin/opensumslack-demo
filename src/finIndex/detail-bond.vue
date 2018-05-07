@@ -60,32 +60,58 @@
       <div class="panel">
         <text class="panel-header">债券日历</text>
         <div class="panel-body">
-          <text class="prop_value">略</text>
+          <div class="flex-column list-item flex-between" v-for="b in bond.calendar">
+            <text class="prop_name">{{b.propName}}：</text>
+            <text class="prop_value">{{b.propValue}}</text>
+          </div>
         </div>
       </div>
     </cell>  
-
-    <cell class="cell">
-      <div class="flex-column" style="margin-top:20px;margin-bottom:20px;">
-        <text class="prop_name">发行人</text>
-        <text class="prop_value">贵州贵安建设集团有限公司 国有企业</text> 
-      </div>
-    </cell>  
-
     <cell class="cell">
       <div class="panel">
         <text class="panel-header">债项历史评级</text>
         <div class="panel-body">
-          <text class="prop_value">略</text>
+          <div class="flex-row list-item">
+            <div class="flex-column flex-between">
+              <text class="prop_name w4 textcenter">债项评级</text>
+              <text class="prop_name w4 textcenter">评级日期</text>
+              <text class="prop_name w4 textcenter"  style="flex:1">评级机构</text>
+            </div>
+            <div class="flex-column flex-between rowspan" v-for="b in bond.rating">
+              <text class="prop_value w4 textcenter">{{b.bondRating}}</text>
+              <text class="prop_value w4 textcenter">{{b.ratingDate}}</text>
+              <text class="prop_value textcenter"  style="flex:1">{{b.insName}}</text>
+            </div>
+          </div> 
         </div>
       </div>
-    </cell>     
+    </cell> 
+
+    <cell class="cell">
+      <div class="flex-column" style="margin-top:20px;margin-bottom:20px;">
+        <text class="prop_name">发行人</text>
+        <text class="prop_value">{{bond.ins_name}} {{bond.ins_type}}</text> 
+      </div>
+    </cell>  
 
     <cell class="cell">
       <div class="panel">
         <text class="panel-header">发行人所有债券(流通中)</text>
         <div class="panel-body">
-          <text class="prop_value">略</text>
+          <div class="flex-row list-item">
+            <div class="flex-column flex-between">
+              <text class="prop_name w4 textcenter">剩余期限</text>
+              <text class="prop_name w4 textcenter">债券代码</text>
+              <text class="prop_name w4 textcenter"   style="flex:1">简称</text>
+              <text class="prop_name w4 textcenter">债项评级</text>
+            </div>
+          </div>
+          <div class="flex-column flex-between rowspan" v-for="b in bond.issuerBonds">
+              <text class="prop_value w4 textcenter">{{b.lefttime}}</text>
+              <text class="prop_value w4 textcenter">{{b.Bond_ID}}</text>
+              <text class="prop_value textcenter"  style="flex:1">{{b.Short_Name}}</text>
+              <text class="prop_value textcenter">{{b.rating}}</text>
+          </div>
         </div>
       </div>
     </cell> 
@@ -94,7 +120,18 @@
       <div class="panel">
         <text class="panel-header">发行人主体历史评级</text>
         <div class="panel-body">
-          <text class="prop_value">略</text>
+          <div class="flex-row list-item">
+            <div class="flex-column flex-between">
+              <text class="prop_name w4 textcenter">债项评级</text>
+              <text class="prop_name w4 textcenter">评级日期</text>
+              <text class="prop_name w4 textcenter"   style="flex:1">评级机构</text>
+            </div>
+          </div>
+          <div class="flex-column flex-between rowspan" v-for="b in bond.issuerHistoryRate">
+              <text class="prop_value w4 textcenter">{{b.rate}}</text>
+              <text class="prop_value w4 textcenter">{{b.rating_date}}</text>
+              <text class="prop_value textcenter"  style="flex:1">{{b.shortname}}</text>
+          </div>
         </div>
       </div>
     </cell> 
@@ -171,12 +208,27 @@
         rate:[
           {propName:"利率方式",propValue:""},
           {propName:"票面利率",propValue:""},
-          {propName:"发行收益	",propValue:"4.17%"},
-          {propName:"发行价格	",propValue:""},
-          {propName:"付息频率	",propValue:""},
-          {propName:"计息频率	",propValue:""}
+          {propName:"发行收益",propValue:"4.17%"},
+          {propName:"发行价格",propValue:""},
+          {propName:"付息频率",propValue:""},
+          {propName:"计息频率",propValue:""}
         ],
         market:[
+        ],
+        calendar:[
+          {propName:"发行开始日",propValue:""},
+          {propName:"起息日",propValue:""},
+          {propName:"上市日",propValue:""},
+          {propName:"下次付息日",propValue:"20181028"},
+          {propName:"行权日",propValue:"20181028"},
+          {propName:"下市日",propValue:""},
+          {propName:"到期日",propValue:""}
+        ],
+        rating:[
+        ],
+        issuerBonds:[
+        ],
+        issuerHistoryRate:[
         ]
       }
     }),
@@ -191,7 +243,7 @@
               Sumslack.refresh();
           });
       });
-      Sumslack.request("http://192.168.31.98:9191/bond/detail/1580243",{
+      Sumslack.request("http://192.168.31.98:9191/bond/detail/G0003652015CORLEB01",{
                     }).then(data => {
                       let bondBean = data.bondBean;
                       self.bond.base[0].propValue= bondBean.shortName;
@@ -240,6 +292,19 @@
                           c.c4=info.zyb?info.zyb:"--";
                           self.bond.market.push(c);
                       });
+                      self.bond.calendar[0].propValue=bondBean.issueStartDate?bondBean.issueStartDate:"--";
+                      self.bond.calendar[1].propValue=bondBean.interestStartDate?bondBean.interestStartDate:"--";
+                      self.bond.calendar[2].propValue=bondBean.listedDate?bondBean.listedDate:"--";
+                      self.bond.calendar[5].propValue=bondBean.delistedDate?bondBean.delistedDate:"--";
+                      self.bond.calendar[6].propValue=bondBean.maturityDate?bondBean.maturityDate:"--";
+                      self.bond.rating=data.bondRatingBeanList;
+                      
+                      self.bond.ins_name=bondBean.ins_name;
+                      self.bond.ins_type=bondBean.ins_type;
+                      self.bond.issuerBonds=self.bond.issuerBonds.concat(data.issuerAllBonds.SSE);
+                      self.bond.issuerBonds=self.bond.issuerBonds.concat(data.issuerAllBonds.CIB);
+                      self.bond.issuerBonds=self.bond.issuerBonds.concat(data.issuerAllBonds.SZE);
+                      self.bond.issuerHistoryRate=data.issuerHistoryRate;
                       //  Sumslack.alert('收到网络响应：' + Sumslack.print(data));
                     });
     },
