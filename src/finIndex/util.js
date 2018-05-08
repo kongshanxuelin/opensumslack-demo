@@ -17,6 +17,14 @@ let utilFunc = {
       }
     }
     return null;
+  },
+  getColor(index){
+    let colors=["#FF9200", "#CC1EFF", "#0BDD5C", "#FF5087", "#0D4FB8", "#61958D", "#FF0000", "#D52222", "#964141"];
+    if(index < colors.length){
+      return colors[index];
+    }else{
+      return colors[0];
+    }
   }
 };
 

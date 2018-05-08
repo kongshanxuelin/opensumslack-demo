@@ -236,17 +236,20 @@
       
     },
     created() {
+      this.bondKey = Sumslack.getHttp().getUrlParam(this,"id") || "G0003652015CORLEB01";
+      //Sumslack.alert(this.bondKey);
       let self = this;
       util.initIconFont();
-      Sumslack.init("xxx债券",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
+      Sumslack.init("债券详情",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();
           });
       });
-      Sumslack.request("http://192.168.31.98:9191/bond/detail/G0003652015CORLEB01",{
+      Sumslack.request("http://192.168.1.213:9191/bond/detail/"+this.bondKey,{
                     }).then(data => {
                       let bondBean = data.bondBean;
                       self.bond.base[0].propValue= bondBean.shortName;
+                      Sumslack.setTitle(bondBean.shortName);
                       self.bond.base[1].propValue= bondBean.fullName;
                       if(data.bondRatingBeanList&&data.bondRatingBeanList.length>0){
                           self.bond.base[2].propValue= data.bondRatingBeanList[0].bondRating;
