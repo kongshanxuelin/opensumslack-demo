@@ -1,6 +1,5 @@
 <template>
 <div class="wxc-demo">
-
     <div class="panel">
       <text class="panel-header">基本信息</text>
       <div class="panel-body">
@@ -11,10 +10,14 @@
       </div>
     </div>
   <div class="panel"> 
-    <chart :data="series" style="height:450px;width:100%;background-color:#343434;"></chart>
+    <chart ref="chart" :data="series" style="height:550px;width:100%;"></chart>
   </div>
   <div class="panel">
-    <text ref="chart" :key="index" @click="clickLine(index)" v-for="(line,index) in chartOption.series" :style="{fontSize:25,color:line.color,marginTop:'5px',marginBottom:'5px'}">{{line.title}}</text>
+    <text 
+    :key="index" 
+    @click="clickLine(index)" 
+    v-for="(line,index) in chartOption.series" 
+    :style="{fontSize:25,color:line.color,marginTop:'5px',marginBottom:'5px',marginLeft:'5px',marginRight:'5px'}">{{line.title}}</text>
   </div>
 </div>
 </template>
@@ -81,7 +84,6 @@
     },
     methods: {
       clickLine:function(index){
-        Sumslack.alert(index+"");
         this.$refs.chart.showline(index);
       }
     }
