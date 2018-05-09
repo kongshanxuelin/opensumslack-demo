@@ -21,16 +21,6 @@
           <text class="text-info">{{indexname}}</text>
         </div>
       </div>
-      <div class="info-item">
-        <text class="text-value">{{prevalue}}</text>
-        <text class="text-value">{{marketfore}}</text>
-        <text class="text-value">{{resultstr}}</text>  
-      </div>
-      <div class="info-item">
-        <text class="text">前值</text>
-        <text class="text">预测</text>
-        <text class="text">结果</text>  
-      </div>
     </div>
     <text style="width:50px;color:#FF9200" class="iconfont">&#xe70c;</text>
   </div>
@@ -80,18 +70,6 @@
             default: 0
           },
           country:{
-            type: String,
-            default:""
-          },
-          resultstr:{
-            type: String,
-            default:""
-          },
-          marketfore:{
-            type: String,
-            default:""
-          },
-          prevalue:{
             type: String,
             default:""
           },

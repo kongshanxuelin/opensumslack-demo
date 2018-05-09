@@ -11,13 +11,20 @@
   <div class="tab-container" v-if="tabIndex==0">
     <div class="filter-container flex-row" v-if="showFilter">
       <div class="filterbox flex-column">
-        <text class="text text-info-padding">国家：</text>
         <div class="flex-column">
-          <text class="text-info-selected text-info-padding">全部</text>
-          <text class="text-info text-info-padding">中国</text>
-          <text class="text-info text-info-padding">美国</text>
-          <text class="text-info text-info-padding">欧洲</text>
-          <text class="text-info text-info-padding">东亚</text>
+          <text class="text-info-padding":class="[curshowcountry==''?'text-info-selected':'text-info']" @click="othercountry('')" >全部</text>
+          <text class="text-info-padding":class="[curshowcountry=='中国'?'text-info-selected':'text-info']" @click="othercountry('中国')">中国</text>
+          <text class="text-info-padding":class="[curshowcountry=='美国'?'text-info-selected':'text-info']" @click="othercountry('美国')">美国</text>
+          <text class="text-info-padding":class="[curshowcountry=='日本'?'text-info-selected':'text-info']" @click="othercountry('日本')">日本</text>
+          <text class="text-info-padding":class="[curshowcountry=='英国'?'text-info-selected':'text-info']" @click="othercountry('英国')">英国</text>
+          <text class="text-info-padding":class="[curshowcountry=='澳大利亚'?'text-info-selected':'text-info']" @click="othercountry('澳大利亚')">澳大利亚</text>
+        </div>
+      </div>
+      <div class="filterbox flex-column">
+        <div class="flex-column">
+          <text class="text-info-padding":class="[curimportant==''?'text-info-selected':'text-info']" @click="otherimportant('')" >全部</text>
+          <text class="text-info-padding":class="[curimportant=='0'?'text-info-selected':'text-info']" @click="otherimportant('0')">重要</text>
+          <text class="text-info-padding":class="[curimportant=='1'?'text-info-selected':'text-info']" @click="otherimportant('1')">次要</text>
         </div>
       </div>
     </div> 
@@ -28,25 +35,77 @@
     </div> 
     <div class="wrapper">
       <div class="flex-column">
-        <div class="flex-row" style="width:106px" v-for="item in [1,2,3,4,5,6,7]">
-          <text class="text-day-week">周{{item}}</text>
-          <text class="text-day-date">04-0{{item}}</text>
+        <div class="flex-row" style="width:106px" @click="otherdate(sdate)" v-for="sdate in sdates">
+          <text class="text-day-week">{{sdate.week}}</text>
+          <text class="text-day-date">{{sdate.show}}</text>
         </div>
       </div>
     </div> 
     <scroller :class="['main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
       <refresher @loadingDown="loadingDown"></refresher>
-      <tab-event-item @click.native="doDetail(item)" country="美国" index-name="新屋销售年化率1(%)" v-for="(item,index) in eventItems" :row-index="index" :key="item.id"></tab-event-item>
+      <tab-event-item @click.native="doDetail(item)" :country="item.country" :marketfore="item.marketfore" :prevalue="item.prevalue" :resultstr="item.resultstr" :lvl="item.importantstr" :indexname="item.indexname"   v-for="(item,index) in eventItems" :row-index="index" :key="item.id"></tab-event-item>
       <loading class="loading" @loading="onloading" :display="showLoading">
           <text class="indicator">...</text>
       </loading>
     </scroller>
   </div>
   <div class="tab-container" v-if="tabIndex==1">
-    <text class="text">这里显示财经事件</text>
+    <div class="filter-container flex-row" v-if="showFilter">
+      <div class="filterbox flex-column">
+        <div class="flex-column">
+          <text class="text-info-padding":class="[curshowcountryEvent==''?'text-info-selected':'text-info']" @click="othercountryEvent('')" >全部</text>
+          <text class="text-info-padding":class="[curshowcountryEvent=='中国'?'text-info-selected':'text-info']" @click="othercountryEvent('中国')">中国</text>
+          <text class="text-info-padding":class="[curshowcountryEvent=='美国'?'text-info-selected':'text-info']" @click="othercountryEvent('美国')">美国</text>
+          <text class="text-info-padding":class="[curshowcountryEvent=='日本'?'text-info-selected':'text-info']" @click="othercountryEvent('日本')">日本</text>
+          <text class="text-info-padding":class="[curshowcountryEvent=='英国'?'text-info-selected':'text-info']" @click="othercountryEvent('英国')">英国</text>
+          <text class="text-info-padding":class="[curshowcountryEvent=='澳大利亚'?'text-info-selected':'text-info']" @click="othercountryEvent('澳大利亚')">澳大利亚</text>
+        </div>
+      </div>
+      <div class="filterbox flex-column">
+        <div class="flex-column">
+          <text class="text-info-padding":class="[curimportantEvent==''?'text-info-selected':'text-info']" @click="otherimportantEvent('')" >全部</text>
+          <text class="text-info-padding":class="[curimportantEvent=='0'?'text-info-selected':'text-info']" @click="otherimportantEvent('0')">重要</text>
+          <text class="text-info-padding":class="[curimportantEvent=='1'?'text-info-selected':'text-info']" @click="otherimportantEvent('1')">次要</text>
+        </div>
+      </div>
+    </div> 
+    <div class="flex-row-right">
+        <!-- iconfont不支持动态图标，会被显示成字符串，暂时用v-if代替 -->
+        <text class="iconfont" @click="collapseBar" v-if="showFilter">&#xe777;</text>
+        <text class="iconfont" @click="collapseBar" v-else>&#xe778;</text>    
+    </div> 
+    <div class="wrapper">
+      <div class="flex-column">
+        <div class="flex-row" style="width:106px" @click="otherdateEvent(sdate)" v-for="sdate in sdatesEvent">
+          <text class="text-day-week">{{sdate.week}}</text>
+          <text class="text-day-date">{{sdate.show}}</text>
+        </div>
+      </div>
+    </div> 
+    <scroller :class="['main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
+      <refresher @loadingDown="loadingDown"></refresher>
+      <tab-event-fx-item @click.native="doDetail(item)" :country="item.country" :lvl="item.importantstr" :indexname="item.content"   v-for="(item,index) in eventItemsEvent" :row-index="index" :key="item.id"></tab-event-fx-item>
+      <loading class="loading" @loading="onloading" :display="showLoading">
+          <text class="indicator">...</text>
+      </loading>
+    </scroller>
   </div>
   <div class="tab-container" v-if="tabIndex==2">
-    <text class="text">这里显示节假日</text>
+    <div class="wrapper">
+        <div class="flex-column">
+          <div class="flex-row" style="width:106px" @click="otherdateHoliday(sdate)" v-for="sdate in sdatesHoliday">
+            <text class="text-day-week">{{sdate.week}}</text>
+            <text class="text-day-date">{{sdate.show}}</text>
+          </div>
+        </div>
+    </div> 
+    <div class="info">
+      <div  class='info-item' style="width:650px;" v-for="holiday in holidayItems">
+        <text class="text-info">{{holiday.country}}</text>
+        <text class="text-info">{{holiday.marketType}}</text>
+        <text class="text-info">{{holiday.holidayReason}}</text>
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -54,6 +113,12 @@
 <style scoped>
   .filter-container {
   }
+  .info {
+      flex:1;
+      padding-left:40px;
+      padding-right: 80px;
+      width:650px;
+    }
   .tab {
     margin-top:30px;
     text-align: center;
@@ -114,6 +179,13 @@
     font-size:20px;
     color:#8F9598;
   }
+ .info-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
 </style>
 <script>
   import { WxcButton, WxcCell } from 'weex-ui';
@@ -121,11 +193,21 @@
 
   import refresher from './refresh.vue';
   import TabEventItem from './tab-event-item.vue';
+  import TabEventFxItem from './tab-event-fx-item.vue';
   import util from './util';
 
   module.exports = {
-    components: { WxcButton, WxcCell,refresher,TabEventItem  },
+    components: { WxcButton, WxcCell,refresher,TabEventItem,TabEventFxItem  },
     data: () => ({
+      curholidaydate:"2018-05-01",
+      curdate:"",
+      curcountry:"",
+      curshowcountry:"",
+      curimportant:"",
+      curdateEvent:"",
+      curcountryEvent:"",
+      curshowcountryEvent:"",
+      curimportantEvent:"",
       showFilter:true,
       tabIndex:0,
       customStyles: {
@@ -155,47 +237,79 @@
       },
       showLoading: 'hide',
       eventItems:[
-        {id:1,title:"测试"},
-        {id:2,title:"测试2"},
-        {id:3,title:"测试3"},
-        {id:1,title:"测试"},
-        {id:2,title:"测试2"},
-        {id:3,title:"测试3"},
-        {id:1,title:"测试"},
-        {id:2,title:"测试2"},
-        {id:3,title:"测试3"},
-        {id:1,title:"测试"},
-        {id:2,title:"测试2"},
-        {id:3,title:"测试3"},
-        {id:1,title:"测试"},
-        {id:2,title:"测试2"},
-        {id:3,title:"测试3"},
-        {id:1,title:"测试"},
-        {id:2,title:"测试2"},
-        {id:3,title:"测试3"},
-        {id:1,title:"测试"},
-        {id:2,title:"测试2"},
-        {id:3,title:"测试3"},
-        {id:1,title:"测试"},
-        {id:2,title:"测试2"},
-        {id:3,title:"测试3"}
+      ],
+      eventItemsEvent:[
+      ],
+      holidayItems:[
+      ],
+      sdatesEvent:[
+      ],
+      sdatesHoliday:[
+      ],
+      sdates:[
       ]
-
     }),
     computed: {
-      
     },
     created() {
+      let self = this;
       util.initIconFont();
       Sumslack.init("发现",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();
           });
       });
+
+      Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime=&endpubtime=&importantstr=&country=",{
+                    }).then(data => {
+                      self.eventItems=data;
+                      
+                    });
+
+      Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date=",{
+                    }).then(data => {
+                      self.sdates=data;
+                      self.curdate=data[3].detaildate;
+                    });
     },
     methods: {
       tabClick(index){
         this.tabIndex = index;
+        let self = this;
+        if(index==0){
+          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime="+self.curdate+"&endpubtime="+self.curdate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+                      }).then(data => {
+                        self.eventItems=data;
+                      });
+
+          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+self.curdate,{
+                      }).then(data => {
+                        self.sdates=data;
+                        self.curdate=data[3].detaildate;
+                      });
+        }else if(index==1){
+          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxFinaevent?startpubtime="+self.curdateEvent+"&endpubtime="+self.curdateEvent+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+                      }).then(data => {
+                        self.eventItemsEvent=data;
+                      });
+
+          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+self.curdateEvent,{
+                      }).then(data => {
+                        self.sdatesEvent=data;
+                        self.curdateEvent=data[3].detaildate;
+                      });
+        }else{
+          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectHolidayInfo?date="+self.curholidaydate,{
+                      }).then(data => {
+                        self.holidayItems=data;
+                      });
+
+          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+self.curholidaydate,{
+                      }).then(data => {
+                        self.sdatesHoliday=data;
+                        self.curholidaydate=data[3].detaildate;
+                      });
+        }
       },
       collapseBar(){
          this.showFilter = !this.showFilter;
@@ -205,28 +319,101 @@
       },
       wxcEpSliderCurrentIndexSelected (e) {
         const index = e.currentIndex;
-        console.log("index:"+index);
       },
       onloading () {
-          this.showLoading = 'show';
-          setTimeout(() => {
-              this.eventItems.push({id:12,title:"test"});
-              this.showLoading = 'hide'
-          }, 300)
       },
       onloadmore () {
-          setTimeout(() => {
-              this.eventItems.push({id:12,title:"test"});
-          }, 100)
+
       },
       loadingDown(){
-          //this.eventItems =[];
-          this.eventItems.push({id:12,title:"test11"});
-          this.eventItems.push({id:13,title:"test12"});
+
       },
       doDetail(item){
         //Sumslack.toast("goto page:"+item.title);
         Sumslack.navigateTo("fin.tab.event.detail",{a:11});
+      },
+      othercountry(country){
+         
+        let self = this;
+        self.curshowcountry=country;
+        self.curcountry=encodeURI(encodeURI(country));
+        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime="+self.curdate+"&endpubtime="+self.curdate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+                    }).then(data => {
+                      self.eventItems=data;
+                    });
+      },
+      othercountryEvent(country){
+         
+        let self = this;
+        self.curshowcountryEvent=country;
+
+        self.curcountryEvent=encodeURI(encodeURI(country));
+        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxFinaevent?startpubtime="+self.curdateEvent+"&endpubtime="+self.curdateEvent+"&importantstr="+self.curimportantEvent+"&country="+self.curcountryEvent,{
+                    }).then(data => {
+                      self.eventItemsEvent=data;
+                    });
+      },
+      
+      otherdate(sdate){
+        let self = this;
+        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime="+sdate.detaildate+"&endpubtime="+sdate.detaildate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+                    }).then(data => {
+                      self.eventItems=data;
+                    });
+
+        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
+                    }).then(data => {
+                      self.sdates=data;
+                      self.curdate=data[3].detaildate;
+                    });
+      },
+      otherdateHoliday(sdate){
+        let self = this;
+        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectHolidayInfo?date="+sdate.detaildate,{
+                      }).then(data => {
+                        self.holidayItems=data;
+                      });
+
+          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
+                      }).then(data => {
+                        self.sdatesHoliday=data;
+                        self.curholidaydate=data[3].detaildate;
+                      });
+      },
+      otherimportant(important){
+        
+        let self = this;
+        self.curimportant=important;
+        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime="+self.curdate+"&endpubtime="+self.curdate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+                    }).then(data => {
+                      self.eventItems=data;
+                      
+                    });
+      },
+      
+      otherdateEvent(sdate){
+        let self = this;
+        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxFinaevent?startpubtime="+sdate.detaildate+"&endpubtime="+sdate.detaildate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+                    }).then(data => {
+                      self.eventItemsEvent=data;
+                      Sumslack.toast("goto page:");
+                    });
+
+        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
+                    }).then(data => {
+                      self.sdatesEvent=data;
+                      self.curdateEvent=data[3].detaildate;
+                    });
+      },
+      otherimportantEvent(important){
+        
+        let self = this;
+        self.curimportantEvent=important;
+        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxFinaevent?startpubtime="+self.curdateEvent+"&endpubtime="+self.curdateEvent+"&importantstr="+self.curimportantEvent+"&country="+self.curcountryEvent,{
+                    }).then(data => {
+                      self.eventItemsEvent=data;
+                      
+                    });
       }
     }
   };
