@@ -7,6 +7,12 @@
   background-color: #0A0F0E;
 }
 
+.w750 {
+  width:750px;
+}
+.w150 {
+  width:150px;
+}
 .wxc-cell {
   background: #0A0F0E;
   border-bottom-color:#193D37;
