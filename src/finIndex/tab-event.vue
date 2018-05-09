@@ -2,7 +2,7 @@
 <div class="wxc-demo">
 
   <div class="tab">
-    <div class="flex-column flex-center flex-middle">
+    <div class="flex-column flex-center flex-middle tab-btns">
         <text @click="tabClick(0)" class="text-info-padding" :class="[tabIndex==0?'text-info-selected':'text-info']">财经指标</text>
         <text @click="tabClick(1)" class="text-info-padding" :class="[tabIndex==1?'text-info-selected':'text-info']">财经事件</text>
         <text @click="tabClick(2)" class="text-info-padding" :class="[tabIndex==2?'text-info-selected':'text-info']">节假日</text>
@@ -59,8 +59,9 @@
     text-align: center;
     width:750px;
     margin-bottom: 20px;
-    margin-left: 120px;
-    margin-right: 120px;
+  }
+  .tab-btns{
+    justify-content: center;
   }
   .tab-container {
     flex:1;

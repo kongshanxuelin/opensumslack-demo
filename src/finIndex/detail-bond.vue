@@ -180,6 +180,7 @@
 }
 </style>
 <script>
+  import config from '../config.js';
   import { WxcButton, WxcCell } from 'weex-ui';
   const Sumslack = require("../sumslack/js/sumslack.js");
 
