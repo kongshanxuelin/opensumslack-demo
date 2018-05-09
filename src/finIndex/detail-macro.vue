@@ -56,31 +56,48 @@
         ],
         series:"",
         gjkcode:"",
-        chartOption:{
-          series:[{
-            title:"曲线1",
-            color:util.getColor(0),
-            type:"line",
-            data:[{x:"1",y:14},{x:"2",y:10},{x:"3",y:11}]
-          },{
-            title:"曲线2",
-            color:util.getColor(1),
-            type:"line",
-            data:[{x:"2",y:24},{x:"3",y:13},{x:"4",y:18}]
-          }]
-        }
+        chartOption:{series:[]}
     }),
     computed: {
       
     },
     created(){
-      this.gjkcode = Sumslack.getHttp().getUrlParam(this,"id") || "";
+      this.gjkcode = Sumslack.getHttp().getUrlParam(this,"id") || "CRE1A02035";
+      //this.gjkcode ="CEC1A00361";
       Sumslack.init("宏观指标",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();
           });
       });
       this.series = JSON.stringify(this.chartOption);
+      Sumslack.request("http://192.168.1.169:9191/macroBaseIndex/selectByGjkCode?gjkCodes="+this.gjkcode,{
+                      }).then(data => {
+                        if(data.length>0){
+                          this.mprops[0].propValue=data[0].seriesNameLocal;
+                          this.mprops[1].propValue=data[0].unitTypeLocal;
+                          this.mprops[2].propValue=data[0].seriesFreqLocal;
+                          this.mprops[3].propValue=data[0].sourceNameLocal;
+                        }
+                      });
+      Sumslack.request("http://192.168.1.169:9191/macroBaseIndex/selectDataValueByGjkCode?gjkcode="+this.gjkcode+"&startpubtime=&endpubtime=",{
+                      }).then(data => {
+                        let tempdatas=[];
+                        let temps={};
+                        temps.title="曲线1";
+                        temps.color="#FF9200";
+                        temps.type="line";
+
+                        data.forEach(info => {
+                        let c={};
+                        c.x=info.indexDate;
+                        c.y=info.indexValue?info.indexValue:0;
+                        tempdatas.push(c);
+                    
+                        });
+                        temps.data=tempdatas;
+                        this.chartOption.series.push(temps);
+                        this.series = JSON.stringify(this.chartOption);
+                        });
     },
     methods: {
       clickLine:function(index){

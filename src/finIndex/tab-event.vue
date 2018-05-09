@@ -397,7 +397,6 @@
         Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxFinaevent?startpubtime="+sdate.detaildate+"&endpubtime="+sdate.detaildate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
                     }).then(data => {
                       self.eventItemsEvent=data;
-                      Sumslack.toast("goto page:");
                     });
 
         Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
