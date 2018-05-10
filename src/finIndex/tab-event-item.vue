@@ -2,16 +2,16 @@
   <div class="wrapper" :style="{backgroundColor:(rowIndex%2==0?'#121A19 ':'#1E2B29')}">
     <div class="plr10" style="width:50px;">
       <div v-if="lvl=='高'">
-      <text style="color:#FF9200" class="iconfont">&#xe6f5;</text>
-      <text style="color:#FF9200" class="iconfont">&#xe6f5;</text>
-      <text style="color:#FF9200" class="iconfont">&#xe6f5;</text>
+      <text style="color:#FF9200;padding-left:10px;" class="iconfont">&#xe6f5;</text>
+      <text style="color:#FF9200;padding-left:10px;" class="iconfont">&#xe6f5;</text>
+      <text style="color:#FF9200;padding-left:10px;" class="iconfont">&#xe6f5;</text>
       </div>
       <div v-if="lvl=='中'">
-      <text style="color:#FF9200" class="iconfont">&#xe6f5;</text>
-      <text style="color:#FF9200" class="iconfont">&#xe6f5;</text>
+      <text style="color:#FF9200;padding-left:10px;" class="iconfont">&#xe6f5;</text>
+      <text style="color:#FF9200;padding-left:10px;" class="iconfont">&#xe6f5;</text>
       </div>
       <div v-if="lvl=='低'">
-      <text style="color:#FF9200" class="iconfont">&#xe6f5;</text>
+      <text style="color:#FF9200;padding-left:10px;" class="iconfont">&#xe6f5;</text>
       </div>
     </div> 
     <div class="info">

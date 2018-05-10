@@ -14,7 +14,7 @@
       <div class="panel">
         <text class="panel-header">基本信息</text>
         <div class="panel-body">
-          <div class="flex-column list-item flex-between" v-for="b in bond.base">
+          <div class="flex-column list-item flex-between" :key="b" v-for="b in bond.base">
             <text class="prop_name">{{b.propName}}：</text>
             <text class="prop_value">{{b.propValue}}</text>
           </div> 
@@ -26,7 +26,7 @@
       <div class="panel">
         <text class="panel-header">利率信息</text>
         <div class="panel-body">
-          <div class="flex-column list-item flex-between" v-for="b in bond.rate">
+          <div class="flex-column list-item flex-between" :key="b" v-for="b in bond.rate">
             <text class="prop_name">{{b.propName}}：</text>
             <text class="prop_value">{{b.propValue}}</text>
           </div> 
@@ -45,7 +45,7 @@
               <text class="prop_name w4 textcenter">简称</text>
               <text class="prop_name w100 textcenter">质押比</text>
             </div>
-            <div class="flex-column flex-between rowspan" v-for="b in bond.market">
+            <div class="flex-column flex-between rowspan" :key="b" v-for="b in bond.market">
               <text class="prop_value textcenter" style="flex:1">{{b.c1}}</text>
               <text class="prop_value w4 textcenter">{{b.c2}}</text>
               <text class="prop_value w4 textcenter">{{b.c3}}</text>
@@ -60,7 +60,7 @@
       <div class="panel">
         <text class="panel-header">债券日历</text>
         <div class="panel-body">
-          <div class="flex-column list-item flex-between" v-for="b in bond.calendar">
+          <div class="flex-column list-item flex-between" :key="b" v-for="b in bond.calendar">
             <text class="prop_name">{{b.propName}}：</text>
             <text class="prop_value">{{b.propValue}}</text>
           </div>
@@ -77,7 +77,7 @@
               <text class="prop_name w4 textcenter">评级日期</text>
               <text class="prop_name w4 textcenter"  style="flex:1">评级机构</text>
             </div>
-            <div class="flex-column flex-between rowspan" v-for="b in bond.rating">
+            <div class="flex-column flex-between rowspan" :key="b" v-for="b in bond.rating">
               <text class="prop_value w4 textcenter">{{b.bondRating}}</text>
               <text class="prop_value w4 textcenter">{{b.ratingDate}}</text>
               <text class="prop_value textcenter"  style="flex:1">{{b.insName}}</text>
@@ -106,7 +106,7 @@
               <text class="prop_name w4 textcenter">债项评级</text>
             </div>
           </div>
-          <div class="flex-column flex-between rowspan" v-for="b in bond.issuerBonds">
+          <div class="flex-column flex-between rowspan" :key="b.Bond_ID" v-for="b in bond.issuerBonds">
               <text class="prop_value w4 textcenter">{{b.lefttime}}</text>
               <text class="prop_value w4 textcenter">{{b.Bond_ID}}</text>
               <text class="prop_value textcenter"  style="flex:1">{{b.Short_Name}}</text>
@@ -127,7 +127,7 @@
               <text class="prop_name w4 textcenter"   style="flex:1">评级机构</text>
             </div>
           </div>
-          <div class="flex-column flex-between rowspan" v-for="b in bond.issuerHistoryRate">
+          <div class="flex-column flex-between rowspan" :key="b" v-for="b in bond.issuerHistoryRate">
               <text class="prop_value w4 textcenter">{{b.rate}}</text>
               <text class="prop_value w4 textcenter">{{b.rating_date}}</text>
               <text class="prop_value textcenter"  style="flex:1">{{b.shortname}}</text>
