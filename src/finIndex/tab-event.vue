@@ -1,6 +1,5 @@
 <template>
 <div class="wxc-demo">
-
   <div class="tab">
     <div class="flex-column flex-center flex-middle tab-btns">
         <text @click="tabClick(0)" class="text-info-padding" :class="[tabIndex==0?'text-info-selected':'text-info']">财经指标</text>
@@ -35,18 +34,21 @@
     </div> 
     <div class="wrapper">
       <div class="flex-column">
-        <div class="flex-row" style="width:106px" @click="otherdate(sdate)" v-for="sdate in sdates">
+        <div :key="sdate.show" 
+        class="flex-row"
+        style="width:104px;padding-top:10px;padding-bottom:5px;" 
+        :style="{'background-color':(curdate===sdate.detaildate ? '#FF9200' : (todayvalue===sdate.detaildate?'#608E2D':'transparent'))}"
+        @click="otherdate(sdate)" 
+        v-for="sdate in sdates">
           <text class="text-day-week">{{sdate.week}}</text>
           <text class="text-day-date">{{sdate.show}}</text>
         </div>
       </div>
     </div> 
-    <scroller :class="['main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
+    <scroller :class="['scroller','main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
       <refresher @loadingDown="loadingDown"></refresher>
       <tab-event-item @click.native="doDetail(item)" :country="item.country" :marketfore="item.marketfore" :prevalue="item.prevalue" :resultstr="item.resultstr" :lvl="item.importantstr" :indexname="item.indexname"   v-for="(item,index) in eventItems" :row-index="index" :key="item.id"></tab-event-item>
-      <loading class="loading" @loading="onloading" :display="showLoading">
-          <text class="indicator">...</text>
-      </loading>
+
     </scroller>
   </div>
   <div class="tab-container" v-if="tabIndex==1">
@@ -76,18 +78,25 @@
     </div> 
     <div class="wrapper">
       <div class="flex-column">
-        <div class="flex-row" style="width:106px" @click="otherdateEvent(sdate)" v-for="sdate in sdatesEvent">
+        <div class="flex-row" 
+        style="width:104px;padding-top:10px;padding-bottom:5px;" 
+        :style="{'background-color':(curdateEvent===sdate.detaildate ? '#FF9200' : (todayvalue===sdate.detaildate?'#608E2D':'transparent'))}"
+         @click="otherdateEvent(sdate)" 
+         :key="'s_'+sdate.show"
+         v-for="sdate in sdatesEvent">
           <text class="text-day-week">{{sdate.week}}</text>
           <text class="text-day-date">{{sdate.show}}</text>
         </div>
       </div>
     </div> 
-    <scroller :class="['main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
+    <scroller :class="['scroller','main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
       <refresher @loadingDown="loadingDown"></refresher>
       <tab-event-fx-item @click.native="doDetail(item)" :country="item.country" :lvl="item.importantstr" :indexname="item.content"   v-for="(item,index) in eventItemsEvent" :row-index="index" :key="item.id"></tab-event-fx-item>
+      <!--
       <loading class="loading" @loading="onloading" :display="showLoading">
           <text class="indicator">...</text>
       </loading>
+      -->
     </scroller>
   </div>
   <div class="tab-container" v-if="tabIndex==2">
@@ -112,6 +121,7 @@
 <style scoped src='../css/sumslack.css' />
 <style scoped>
   .filter-container {
+    margin-left: 20px;
   }
   .info {
       flex:1;
@@ -141,11 +151,14 @@
     color:#fff;
   }
   .scroller {
- 
+    margin-left: 10px;
+    margin-right: 10px;
   }
   .wrapper {
     padding-top: 10px;
     padding-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
   .slider {
     width: 100px;
@@ -172,13 +185,19 @@
   }
   .text-day-week {
     text-align: center;
-    font-size:30px;
+    font-size:25px;
     color:#FFEBC8;
+  }
+  .selecteddate {
+    background-color: #FF9200;
+  }
+  .selectedtoday {
+    background-color: #608E2D;
   }
   .text-day-date{
     text-align: center;
     font-size:20px;
-    color:#8F9598;
+    color:#FFEBC8;
   }
  .info-item {
       display: flex;
@@ -202,6 +221,7 @@
     data: () => ({
       curholidaydate:"2018-05-01",
       curdate:"",
+      todayvalue:"", //今日时间，格式2018-05-01
       curcountry:"",
       curshowcountry:"",
       curimportant:"",
@@ -254,6 +274,7 @@
     },
     created() {
       let self = this;
+      this.todayvalue = Sumslack.getTool().dateFormat(new Date(),"yyyy-MM-dd");
       util.initIconFont();
       Sumslack.init("发现",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){

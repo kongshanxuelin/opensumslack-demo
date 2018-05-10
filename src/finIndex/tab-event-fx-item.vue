@@ -14,13 +14,9 @@
       <text style="color:#FF9200" class="iconfont">&#xe6f5;</text>
       </div>
     </div> 
+    <text class="text-info textcenter" style="width:80px">{{country}}</text>
     <div class="info">
-      <div class="info-item">
-        <div class="flex-column"> 
-          <text class="text-info mr40">{{country}}</text> 
-          <text class="text-info">{{indexname}}</text>
-        </div>
-      </div>
+      <text class="text-info-d">{{indexname}}</text>
     </div>
     <text style="width:50px;color:#FF9200" class="iconfont">&#xe70c;</text>
   </div>
@@ -59,6 +55,11 @@
     }
     .text-info {
       color:#F9C152;
+    }
+    .text-info-d {
+      color:#F9C152;
+      width:500px;
+      lines:3;
     }
 </style>
 <script>

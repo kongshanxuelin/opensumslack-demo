@@ -70,7 +70,7 @@
     },
     methods: {
       gotoPage:function(pageId){
-        Sumslack.navigateTo("fin."+pageId,{type:'b',id:'123'});
+        Sumslack.navigateTo("fin."+pageId,{type:'b',id:'G0003652015CORLEB01'});
       }
     }
   };

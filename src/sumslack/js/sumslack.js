@@ -26,7 +26,6 @@ const Http = {
         var me = this;
         if (typeof params === "object") {
             for (var k in params) {
-                console.log(k);
                 if (_url.indexOf("?") > 0) {
                     _url += "&" + k + "=" + encodeURIComponent(params[k]);
                 } else {
