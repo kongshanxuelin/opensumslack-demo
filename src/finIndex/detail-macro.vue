@@ -69,7 +69,7 @@
               Sumslack.refresh();
           });
       });
-      this.series = JSON.stringify(this.chartOption);
+
       Sumslack.request("http://192.168.1.169:9191/macroBaseIndex/selectByGjkCode?gjkCodes="+this.gjkcode,{
                       }).then(data => {
                         if(data.length>0){

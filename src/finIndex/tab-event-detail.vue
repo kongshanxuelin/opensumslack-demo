@@ -69,29 +69,56 @@
           rvalue:20   //结果值
         },
         series:"",
-        gjkcode:"",
+        indexcode:"",
         chartOption:{
           y:{title:"Y坐标名称"},
-          series:[{
-            title:"曲线1",
-            color:util.getColor(0),
-            type:"line",
-            data:[{x:"1",y:14},{x:"2",y:10},{x:"3",y:11}]
-          }]
+          series:[]
         }
     }),
     computed: {
       
     },
     created(){
-      this.gjkcode = Sumslack.getHttp().getUrlParam(this,"id") || "";
-      Sumslack.init("详情",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
+      this.indexcode = Sumslack.getHttp().getUrlParam(this,"indexcode") || ""; 
+      this.indexcode ="112015032410000102"; 
+      Sumslack.init("宏观指标",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();
           });
-      });
+      });  
+      Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectLastFxIndexEvent?indexcode="+this.indexcode,{
+                      }).then(data => {
+                        if(data.length>0){
+                          this.event.title=data[0].indexname;
+                          this.event.c=data[0].country;
+                          this.event.pvalue=data[0].prevalue||"0";
+                          this.event.fvalue=data[0].marketfore||"0";
+                          this.event.rvalue=data[0].resultstr||"0";
+                          Sumslack.setTitle(this.event.title);
+                        }
+                      });
+      Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEventResult?indexcode="+this.indexcode,{
+                      }).then(data => {
+                        let tempdatas=[];
+                        let temps={};
+                        temps.title="曲线1";
+                        temps.color="#FF9200";
+                        temps.type="line";
+
+                        data.forEach(info => {
+                        let c={};
+                        c.x=info.pubtime;
+                        c.y=info.resultstr||"0";
+                        tempdatas.push(c);
+                    
+                        });
+                        temps.data=tempdatas;
+                        this.chartOption.series.push(temps);
+                        this.series = JSON.stringify(this.chartOption);
+                        });
+
+
       this.series = JSON.stringify(this.chartOption);
-      Sumslack.setTitle(this.event.title);
     },
     methods: {
       clickLine:function(index){
