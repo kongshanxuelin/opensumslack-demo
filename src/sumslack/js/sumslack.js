@@ -78,7 +78,8 @@ const Http = {
             stream.fetch({
                 method: 'GET',
                 url: _url,
-                type: 'json'
+                type: 'json',
+                timeout:30000
             }, (response) => {
                 if (response.status == 200) {
                     resolve(response.data)

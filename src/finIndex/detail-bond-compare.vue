@@ -29,10 +29,7 @@
         <scroller scroll-direction="vertical">
           <div class="flex-column row-height" v-for="(item,index) in bondValues">
             <text class="w200 prop_name">{{item.prop}}</text>
-            <text class="w250 prop_value">{{item.v1}}</text>
-            <text class="w250 prop_value">{{item.v2}}</text>
-            <text class="w250 prop_value">{{item.v3}}</text>
-            <text class="w250 prop_value">{{item.v4}}</text>
+            <text class="w250 prop_value" v-for="(vv,ii) in item.v">{{vv}}</text>
           </div>
         </scroller>
       </div>      
@@ -87,6 +84,7 @@
 }
 </style>
 <script>
+  import config from '../config.js';
   import { WxcButton, WxcCell } from 'weex-ui';
   const Sumslack = require("../sumslack/js/sumslack.js");
   import util from './util';
@@ -95,44 +93,54 @@
     data: () => ({
       bonds:["k1","k2"],
       bondValues:[
-        {prop:"简称",v1:"2015年贵阳",v2:"2015年贵阳",v3:"2015年贵阳",v4:"2015年贵阳"},
-        {prop:"债项评级",v1:"AA",v2:"AAA",v3:"AA",v4:"AAA"},
-        {prop:"主体评级",v1:"AAA",v2:"AAA",v3:"AAA",v4:"AAA"},
-        {prop:"债券类型",v1:"地方企业债 | 城投债",v2:"地方企业债 | 城投债",v3:"地方企业债 | 城投债",v4:"地方企业债 | 城投债"},
-        {prop:"发行规模",v1:"15.00亿元",v2:"15.00亿元",v3:"15.00亿元",v4:"115.00亿元"},
-        {prop:"债券期限",v1:"",v2:"",v3:"",v4:""},
-        {prop:"剩余期限",v1:"",v2:"",v3:"",v4:""},
-        {prop:"含权类型",v1:"",v2:"",v3:"",v4:""},
-        {prop:"还本方式",v1:"",v2:"",v3:"",v4:""},
-        {prop:"主承销商",v1:"",v2:"",v3:"",v4:""},
-        {prop:"承销团",v1:"",v2:"",v3:"",v4:""},
-        {prop:"担保方式",v1:"",v2:"",v3:"",v4:""},
-        {prop:"担保人",v1:"",v2:"",v3:"",v4:""},
-        {prop:"利率方式",v1:"固定利率",v2:"固定利率",v3:"固定利率",v4:"固定利率"},
-        {prop:"票面利率",v1:"4.17%",v2:"4.17%",v3:"4.17%",v4:"4.17%"},
-        {prop:"发行收益",v1:"4.17%",v2:"4.17%",v3:"4.17%",v4:"4.27%"},
-        {prop:"付息频率",v1:"年度",v2:"年度",v3:"年度",v4:"年度"},
-        {prop:"计息频率",v1:"年度",v2:"年度",v3:"年度",v4:"年度"},
-        {prop:"发行人",v1:"国有企业",v2:"国有企业",v3:"国有企业",v4:"国有企业"},
-        {prop:"发行机构",v1:"贵州贵安建设集团有限公司",v2:"贵州贵安建设集团有限公司",v3:"贵州贵安建设集团有限公司",v4:"贵州贵安建设集团有限公司"},
-        {prop:"起息日",v1:"20151028",v2:"20151028",v3:"20151028",v4:"20151028"},
-        {prop:"上市日",v1:"20151110",v2:"20151110",v3:"20151110",v4:"20151110"},
-        {prop:"下次付息日",v1:"20181028",v2:"20181028",v3:"20181028",v4:"20181028"},
-        {prop:"行权日",v1:"--",v2:"--",v3:"--",v4:"--"},
-        {prop:"下市日",v1:"20221027",v2:"20221027",v3:"20221027",v4:"20221027"},
-        {prop:"到期日",v1:"20221028",v2:"20221028",v3:"20221028",v4:"20221028"}
+        {prop:"简称",v:["2015年贵阳","2015年贵阳","2015年贵阳","2015年贵阳"]},
+        {prop:"债项评级",v:["AA","AAA","AA","AAA"]},
+        {prop:"主体评级",v:["AAA","AAA","AAA","AAA"]},
+        {prop:"债券类型",v:["地方企业债 | 城投债","地方企业债 | 城投债","地方企业债 | 城投债","地方企业债 | 城投债"]},
+        {prop:"发行规模",v:["15.00亿元","15.00亿元","15.00亿元","115.00亿元"]},
+        {prop:"债券期限",v:["","","",""]},
+        {prop:"剩余期限",v:["","","",""]},
+        {prop:"含权类型",v:["","","",""]},
+        {prop:"还本方式",v:["","","",""]},
+        {prop:"主承销商",v:["","","",""]},
+        {prop:"承销团",v:["","","",""]},
+        {prop:"担保方式",v:["","","",""]},
+        {prop:"担保人",v:["","","",""]},
+        {prop:"利率方式",v:["固定利率","固定利率","固定利率","固定利率"]},
+        {prop:"票面利率",v:["4.17%","4.17%","4.17%","4.17%"]},
+        {prop:"发行收益",v:["4.17%","4.17%","4.17%","4.27%"]},
+        {prop:"付息频率",v:["年度","年度","年度","年度"]},
+        {prop:"计息频率",v:["年度","年度","年度","年度"]},
+        {prop:"发行人",v:["国有企业","国有企业","国有企业","国有企业"]},
+        {prop:"发行机构",v:["贵州贵安建设集团有限公司","贵州贵安建设集团有限公司","贵州贵安建设集团有限公司","贵州贵安建设集团有限公司"]},
+        {prop:"起息日",v:["20151028","20151028","20151028","20151028"]},
+        {prop:"上市日",v:["20151110","20151110","20151110","20151110"]},
+        {prop:"下次付息日",v:["20181028","20181028","20181028","20181028"]},
+        {prop:"行权日",v:["--","--","--","--"]},
+        {prop:"下市日",v:["20221027","20221027","20221027","20221027"]},
+        {prop:"到期日",v:["20221028","20221028","20221028","20221028"]}
       ]
     }),
     computed: {
       
     },
     created() {
+      let self = this;
       util.initIconFont();
       Sumslack.init("债券比对",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();
           });
       });
+      Sumslack.request(config.server+"/bond/details",{"bondKeys":"G0003652015CORLEB01,G0003652015CORLEB01"
+                    }).then(res => {
+                      alert(res);
+                      res.forEach((data,index) => {
+                         let bondBean = data.bondBean;
+                         alert(index);
+                         self.bondValues[0].v[index]= bondBean.shortName;
+                      });
+                    });
     },
     watch: {
       bonds:function(val){
