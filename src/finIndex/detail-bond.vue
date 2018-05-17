@@ -243,7 +243,7 @@
     },
     created() {
       this.bondKey = Sumslack.getHttp().getUrlParam(this,"id") || "G0003652015CORLEB01";
-      //Sumslack.alert(this.bondKey);
+      //Sumslack.alert(this.bondKey);s24
       let self = this;
       util.initIconFont();
       Sumslack.init("债券详情",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
@@ -251,7 +251,7 @@
               Sumslack.refresh();
           });
       });
-      Sumslack.request("http://192.168.1.213:9191/bond/detail/"+this.bondKey,{
+      Sumslack.request(config.server+"/bond/detail/"+this.bondKey,{
                     }).then(data => {
                       let bondBean = data.bondBean;
                       self.bond.base[0].propValue= bondBean.shortName;
