@@ -16,7 +16,8 @@
         <div class="panel-body">
           <div class="flex-column list-item flex-between" :key="b" v-for="b in bond.base">
             <text class="prop_name">{{b.propName}}：</text>
-            <text class="prop_value">{{b.propValue}}</text>
+            <text class="prop_value line2" lines="2" v-if="b.propName == '债券全称:'">{{b.propValue}}</text>
+            <text class="prop_value" v-else>{{b.propValue}}</text>
           </div> 
         </div>
       </div>
@@ -142,6 +143,10 @@
 </template>
 <style scoped src='../css/sumslack.css' />
 <style scoped>
+.line2 {
+  width:600px;
+  lines:2;
+}
 .search-container {
   margin-top:30px;
   padding-left:10px;

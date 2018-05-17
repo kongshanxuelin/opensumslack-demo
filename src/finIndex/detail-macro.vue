@@ -1,5 +1,9 @@
 <template>
 <div class="wxc-demo">
+    
+    <term class="term" type="2" @itemSelected="termItemClick"></term>
+     
+
     <div class="panel">
       <text class="panel-header">基本信息</text>
       <div class="panel-body">
@@ -23,6 +27,16 @@
 </template>
 <style scoped src='../css/sumslack.css' />
 <style scoped>
+.term {
+  height:60px;
+  width:750px;
+  background-color: #0E1A18;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #193D37;
+  padding-top:5px;
+  padding-bottom:5px;
+}
 .prop_name {
   color: #8F9598;
   padding-right:20px;
@@ -80,11 +94,22 @@
               Sumslack.refresh();
           });
       });
+      //模拟一下大数据
+      this.chartOption.series[0].data = new Array();
+      this.chartOption.series[1].data = new Array();
+      
+      for(var i=1;i<1000;i++){
+        this.chartOption.series[0].data.push({x:i,y:10+i});
+        this.chartOption.series[1].data.push({x:i,y:15+i});
+      }
       this.series = JSON.stringify(this.chartOption);
     },
     methods: {
       clickLine:function(index){
         this.$refs.chart.showline(index);
+      },
+      termItemClick:function(term){
+        Sumslack.alert(Sumslack.print(term.term));
       }
     }
   };
