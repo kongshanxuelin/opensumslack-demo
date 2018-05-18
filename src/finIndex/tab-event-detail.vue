@@ -79,8 +79,8 @@
       
     },
     created(){
-      this.indexcode = Sumslack.getHttp().getUrlParam(this,"indexcode") || ""; 
-      this.indexcode ="112015032410000102"; 
+      this.indexcode = Sumslack.getHttp().getUrlParam(this,"indexcode") || "112015032410000102"; 
+      //Sumslack.alert(this.indexcode);
       Sumslack.init("宏观指标",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();

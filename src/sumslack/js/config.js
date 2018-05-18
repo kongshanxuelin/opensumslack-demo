@@ -37,7 +37,7 @@ module.exports = {
         //fin-index project
         {
             id: "fin.index",
-            url: "index.weex.js"
+            url: "finIndex/index.weex.js"
         },
         {
             id: "fin.tab.event",

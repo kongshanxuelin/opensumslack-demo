@@ -17,6 +17,8 @@
  * under the License.
  */
 exports.getBaseURL = function () {
+    return weex.config.bundleUrl.split('/').slice(0, -1).join('/') + '/';
+    /*
     // if(true){
     //    return "http://192.168.1.154:8081/";
     // }
@@ -62,4 +64,5 @@ exports.getBaseURL = function () {
     }
     console.log("********base*************:",base);
     return base
+    */
 }

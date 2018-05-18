@@ -351,8 +351,8 @@
 
       },
       doDetail(item){
-        //Sumslack.toast("goto page:"+item.title);
-        Sumslack.navigateTo("fin.tab.event.detail",{a:11});
+        //Sumslack.alert(Sumslack.print(item));
+        Sumslack.navigateTo("fin.tab.event.detail",{indexcode:item.indexcode});
       },
       othercountry(country){
          
