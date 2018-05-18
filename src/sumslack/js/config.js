@@ -37,31 +37,31 @@ module.exports = {
         //fin-index project
         {
             id: "fin.index",
-            url: "dist/finIndex/index.weex.js"
+            url: "index.weex.js"
         },
         {
             id: "fin.tab.event",
-            url: "dist/finIndex/tab-event.weex.js"
+            url: "tab-event.weex.js"
         },
         {
             id: "fin.tab.event.detail",
-            url: "dist/finIndex/tab-event-detail.weex.js"
+            url: "tab-event-detail.weex.js"
         },
         {
             id: "fin.detail.bond",
-            url: "dist/finIndex/detail-bond.weex.js"
+            url: "detail-bond.weex.js"
         },
         {
             id: "fin.detail.bond.compare",
-            url: "dist/finIndex/detail-bond-compare.weex.js"
+            url: "detail-bond-compare.weex.js"
         },
         {
             id: "fin.detail.macro",
-            url: "dist/finIndex/detail-macro.weex.js"
+            url: "detail-macro.weex.js"
         },
         {
             id: "fin.favlist",
-            url: "dist/finIndex/favlist.weex.js"
+            url: "favlist.weex.js"
         }
 
     ],

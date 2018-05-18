@@ -200,7 +200,7 @@
         base:[
           {propName:"债券简称",propValue:""},
           {propName:"债券全称",propValue:""},
-          {propName:"主体评级/债项评级",propValue:"AA/AAA"},
+          {propName:"主体评级/债项评级",propValue:""},
           {propName:"债券类型",propValue:""},
           {propName:"债券期限",propValue:""},
           {propName:"剩余期限",propValue:""},
@@ -214,7 +214,7 @@
         rate:[
           {propName:"利率方式",propValue:""},
           {propName:"票面利率",propValue:""},
-          {propName:"发行收益",propValue:"4.17%"},
+          {propName:"发行收益",propValue:""},
           {propName:"发行价格",propValue:""},
           {propName:"付息频率",propValue:""},
           {propName:"计息频率",propValue:""}
@@ -225,8 +225,8 @@
           {propName:"发行开始日",propValue:""},
           {propName:"起息日",propValue:""},
           {propName:"上市日",propValue:""},
-          {propName:"下次付息日",propValue:"20181028"},
-          {propName:"行权日",propValue:"20181028"},
+          {propName:"下次付息日",propValue:""},
+          {propName:"行权日",propValue:""},
           {propName:"下市日",propValue:""},
           {propName:"到期日",propValue:""}
         ],
