@@ -86,7 +86,7 @@
               Sumslack.refresh();
           });
       });  
-      Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectLastFxIndexEvent?indexcode="+this.indexcode,{
+      Sumslack.request(config.server +"/fxcalendar/selectLastFxIndexEvent?indexcode="+this.indexcode,{
                       }).then(data => {
                         if(data.length>0){
                           this.event.title=data[0].indexname;
@@ -97,7 +97,7 @@
                           Sumslack.setTitle(this.event.title);
                         }
                       });
-      Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEventResult?indexcode="+this.indexcode,{
+      Sumslack.request(config.server +"/fxcalendar/selectFxIndexEventResult?indexcode="+this.indexcode,{
                       }).then(data => {
                         let tempdatas=[];
                         let temps={};
