@@ -390,6 +390,7 @@ export function navigateToEmojiPanel(title, placeholder, pageId, params) {
 }
 export function navigateTo(pageId, params) {
     var _url = config.getPageUrl(pageId);
+    alert("1:"+_url);
     if (typeof params === "object") {
         for (var k in params) {
             if (_url.indexOf("?") > 0) {
@@ -399,8 +400,9 @@ export function navigateTo(pageId, params) {
             }
         }
     }
+    alert("2:" + _url);
     _url = getBaseURL(this) + _url;
-    //toast("go2page:" + _url);
+    alert("3:" + _url);
     if (sumslack && isSumslackEnv()) {
         sumslack.navigateTo(_url);
     } else {

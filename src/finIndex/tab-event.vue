@@ -351,7 +351,7 @@
 
       },
       doDetail(item){
-        //Sumslack.alert(Sumslack.print(item));
+        Sumslack.alert(Sumslack.print(item));
         Sumslack.navigateTo("fin.tab.event.detail",{indexcode:item.indexcode});
       },
       othercountry(country){
