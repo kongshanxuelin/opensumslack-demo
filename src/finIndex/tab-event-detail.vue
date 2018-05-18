@@ -101,7 +101,7 @@
                       }).then(data => {
                         let tempdatas=[];
                         let temps={};
-                        temps.title="曲线1";
+                        temps.title="曲线";
                         temps.color="#FF9200";
                         temps.type="line";
 
