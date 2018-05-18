@@ -16,7 +16,8 @@
         <div class="panel-body">
           <div class="flex-column list-item flex-between" :key="b" v-for="b in bond.base">
             <text class="prop_name">{{b.propName}}：</text>
-            <text class="prop_value">{{b.propValue}}</text>
+            <text class="prop_value line2" lines="2" v-if="b.propName == '债券全称:'">{{b.propValue}}</text>
+            <text class="prop_value" v-else>{{b.propValue}}</text>
           </div> 
         </div>
       </div>
@@ -142,6 +143,10 @@
 </template>
 <style scoped src='../css/sumslack.css' />
 <style scoped>
+.line2 {
+  width:600px;
+  lines:2;
+}
 .search-container {
   margin-top:30px;
   padding-left:10px;
@@ -195,7 +200,7 @@
         base:[
           {propName:"债券简称",propValue:""},
           {propName:"债券全称",propValue:""},
-          {propName:"主体评级/债项评级",propValue:"AA/AAA"},
+          {propName:"主体评级/债项评级",propValue:""},
           {propName:"债券类型",propValue:""},
           {propName:"债券期限",propValue:""},
           {propName:"剩余期限",propValue:""},
@@ -209,7 +214,7 @@
         rate:[
           {propName:"利率方式",propValue:""},
           {propName:"票面利率",propValue:""},
-          {propName:"发行收益",propValue:"4.17%"},
+          {propName:"发行收益",propValue:""},
           {propName:"发行价格",propValue:""},
           {propName:"付息频率",propValue:""},
           {propName:"计息频率",propValue:""}
@@ -220,8 +225,8 @@
           {propName:"发行开始日",propValue:""},
           {propName:"起息日",propValue:""},
           {propName:"上市日",propValue:""},
-          {propName:"下次付息日",propValue:"20181028"},
-          {propName:"行权日",propValue:"20181028"},
+          {propName:"下次付息日",propValue:""},
+          {propName:"行权日",propValue:""},
           {propName:"下市日",propValue:""},
           {propName:"到期日",propValue:""}
         ],
@@ -238,7 +243,7 @@
     },
     created() {
       this.bondKey = Sumslack.getHttp().getUrlParam(this,"id") || "G0003652015CORLEB01";
-      //Sumslack.alert(this.bondKey);
+      //Sumslack.alert(this.bondKey);s24
       let self = this;
       util.initIconFont();
       Sumslack.init("债券详情",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
@@ -246,7 +251,7 @@
               Sumslack.refresh();
           });
       });
-      Sumslack.request("http://192.168.1.213:9191/bond/detail/"+this.bondKey,{
+      Sumslack.request(config.server+"/bond/detail/"+this.bondKey,{
                     }).then(data => {
                       let bondBean = data.bondBean;
                       self.bond.base[0].propValue= bondBean.shortName;

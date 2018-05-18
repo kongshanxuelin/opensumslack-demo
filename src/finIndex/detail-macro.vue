@@ -1,5 +1,9 @@
 <template>
 <div class="wxc-demo">
+    
+    <term class="term" type="2" @itemSelected="termItemClick"></term>
+     
+
     <div class="panel">
       <text class="panel-header">基本信息</text>
       <div class="panel-body">
@@ -23,6 +27,16 @@
 </template>
 <style scoped src='../css/sumslack.css' />
 <style scoped>
+.term {
+  height:60px;
+  width:750px;
+  background-color: #0E1A18;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #193D37;
+  padding-top:5px;
+  padding-bottom:5px;
+}
 .prop_name {
   color: #8F9598;
   padding-right:20px;
@@ -44,6 +58,7 @@
 <script>
   import { WxcButton, WxcCell } from 'weex-ui';
   import util from './util';
+  import config from '../config';
   const Sumslack = require("../sumslack/js/sumslack.js");
   module.exports = {
     components: { WxcButton, WxcCell  },
@@ -70,7 +85,7 @@
           });
       });
 
-      Sumslack.request("http://192.168.1.169:9191/macroBaseIndex/selectByGjkCode?gjkCodes="+this.gjkcode,{
+      Sumslack.request(config.server + "/macroBaseIndex/selectByGjkCode?gjkCodes="+this.gjkcode,{
                       }).then(data => {
                         if(data.length>0){
                           this.mprops[0].propValue=data[0].seriesNameLocal;
@@ -79,7 +94,7 @@
                           this.mprops[3].propValue=data[0].sourceNameLocal;
                         }
                       });
-      Sumslack.request("http://192.168.1.169:9191/macroBaseIndex/selectDataValueByGjkCode?gjkcode="+this.gjkcode+"&startpubtime=&endpubtime=",{
+      Sumslack.request(config.server + "/macroBaseIndex/selectDataValueByGjkCode?gjkcode="+this.gjkcode+"&startpubtime=&endpubtime=",{
                       }).then(data => {
                         let tempdatas=[];
                         let temps={};
@@ -102,6 +117,9 @@
     methods: {
       clickLine:function(index){
         this.$refs.chart.showline(index);
+      },
+      termItemClick:function(term){
+        Sumslack.alert(Sumslack.print(term.term));
       }
     }
   };

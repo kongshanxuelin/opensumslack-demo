@@ -210,7 +210,7 @@
 <script>
   import { WxcButton, WxcCell } from 'weex-ui';
   const Sumslack = require("../sumslack/js/sumslack.js");
-
+  import config from '../config.js';
   import refresher from './refresh.vue';
   import TabEventItem from './tab-event-item.vue';
   import TabEventFxItem from './tab-event-fx-item.vue';
@@ -282,13 +282,13 @@
           });
       });
 
-      Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime=&endpubtime=&importantstr=&country=",{
+      Sumslack.request(config.server + "/fxcalendar/selectFxIndexEvent?startpubtime=&endpubtime=&importantstr=&country=",{
                     }).then(data => {
                       self.eventItems=data;
                       
                     });
 
-      Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date=",{
+      Sumslack.request(config.server + "/fxcalendar/selectWeekAbount?date=",{
                     }).then(data => {
                       self.sdates=data;
                       self.curdate=data[3].detaildate;
@@ -299,34 +299,34 @@
         this.tabIndex = index;
         let self = this;
         if(index==0){
-          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime="+self.curdate+"&endpubtime="+self.curdate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+          Sumslack.request(config.server + "/fxcalendar/selectFxIndexEvent?startpubtime="+self.curdate+"&endpubtime="+self.curdate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
                       }).then(data => {
                         self.eventItems=data;
                       });
 
-          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+self.curdate,{
+          Sumslack.request(config.server + "/fxcalendar/selectWeekAbount?date="+self.curdate,{
                       }).then(data => {
                         self.sdates=data;
                         self.curdate=data[3].detaildate;
                       });
         }else if(index==1){
-          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxFinaevent?startpubtime="+self.curdateEvent+"&endpubtime="+self.curdateEvent+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+          Sumslack.request(config.server + "/fxcalendar/selectFxFinaevent?startpubtime="+self.curdateEvent+"&endpubtime="+self.curdateEvent+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
                       }).then(data => {
                         self.eventItemsEvent=data;
                       });
 
-          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+self.curdateEvent,{
+          Sumslack.request(config.server + "/fxcalendar/selectWeekAbount?date="+self.curdateEvent,{
                       }).then(data => {
                         self.sdatesEvent=data;
                         self.curdateEvent=data[3].detaildate;
                       });
         }else{
-          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectHolidayInfo?date="+self.curholidaydate,{
+          Sumslack.request(config.server + "/fxcalendar/selectHolidayInfo?date="+self.curholidaydate,{
                       }).then(data => {
                         self.holidayItems=data;
                       });
 
-          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+self.curholidaydate,{
+          Sumslack.request(config.server + "/fxcalendar/selectWeekAbount?date="+self.curholidaydate,{
                       }).then(data => {
                         self.sdatesHoliday=data;
                         self.curholidaydate=data[3].detaildate;
@@ -359,7 +359,7 @@
         let self = this;
         self.curshowcountry=country;
         self.curcountry=encodeURI(encodeURI(country));
-        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime="+self.curdate+"&endpubtime="+self.curdate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+        Sumslack.request(config.server + "/fxcalendar/selectFxIndexEvent?startpubtime="+self.curdate+"&endpubtime="+self.curdate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
                     }).then(data => {
                       self.eventItems=data;
                     });
@@ -370,7 +370,7 @@
         self.curshowcountryEvent=country;
 
         self.curcountryEvent=encodeURI(encodeURI(country));
-        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxFinaevent?startpubtime="+self.curdateEvent+"&endpubtime="+self.curdateEvent+"&importantstr="+self.curimportantEvent+"&country="+self.curcountryEvent,{
+        Sumslack.request(config.server + "/fxcalendar/selectFxFinaevent?startpubtime="+self.curdateEvent+"&endpubtime="+self.curdateEvent+"&importantstr="+self.curimportantEvent+"&country="+self.curcountryEvent,{
                     }).then(data => {
                       self.eventItemsEvent=data;
                     });
@@ -378,12 +378,12 @@
       
       otherdate(sdate){
         let self = this;
-        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime="+sdate.detaildate+"&endpubtime="+sdate.detaildate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+        Sumslack.request(config.server + "/fxcalendar/selectFxIndexEvent?startpubtime="+sdate.detaildate+"&endpubtime="+sdate.detaildate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
                     }).then(data => {
                       self.eventItems=data;
                     });
 
-        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
+        Sumslack.request(config.server + "/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
                     }).then(data => {
                       self.sdates=data;
                       self.curdate=data[3].detaildate;
@@ -391,12 +391,12 @@
       },
       otherdateHoliday(sdate){
         let self = this;
-        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectHolidayInfo?date="+sdate.detaildate,{
+        Sumslack.request(config.server + "/fxcalendar/selectHolidayInfo?date="+sdate.detaildate,{
                       }).then(data => {
                         self.holidayItems=data;
                       });
 
-          Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
+          Sumslack.request(config.server + "/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
                       }).then(data => {
                         self.sdatesHoliday=data;
                         self.curholidaydate=data[3].detaildate;
@@ -406,7 +406,7 @@
         
         let self = this;
         self.curimportant=important;
-        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxIndexEvent?startpubtime="+self.curdate+"&endpubtime="+self.curdate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+        Sumslack.request(config.server + "/fxcalendar/selectFxIndexEvent?startpubtime="+self.curdate+"&endpubtime="+self.curdate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
                     }).then(data => {
                       self.eventItems=data;
                       
@@ -415,12 +415,12 @@
       
       otherdateEvent(sdate){
         let self = this;
-        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxFinaevent?startpubtime="+sdate.detaildate+"&endpubtime="+sdate.detaildate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
+        Sumslack.request(config.server + "/fxcalendar/selectFxFinaevent?startpubtime="+sdate.detaildate+"&endpubtime="+sdate.detaildate+"&importantstr="+self.curimportant+"&country="+self.curcountry,{
                     }).then(data => {
                       self.eventItemsEvent=data;
                     });
 
-        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
+        Sumslack.request(config.server + "/fxcalendar/selectWeekAbount?date="+sdate.detaildate,{
                     }).then(data => {
                       self.sdatesEvent=data;
                       self.curdateEvent=data[3].detaildate;
@@ -430,7 +430,7 @@
         
         let self = this;
         self.curimportantEvent=important;
-        Sumslack.request("http://192.168.1.169:9191/fxcalendar/selectFxFinaevent?startpubtime="+self.curdateEvent+"&endpubtime="+self.curdateEvent+"&importantstr="+self.curimportantEvent+"&country="+self.curcountryEvent,{
+        Sumslack.request(config.server + "/fxcalendar/selectFxFinaevent?startpubtime="+self.curdateEvent+"&endpubtime="+self.curdateEvent+"&importantstr="+self.curimportantEvent+"&country="+self.curcountryEvent,{
                     }).then(data => {
                       self.eventItemsEvent=data;
                       
