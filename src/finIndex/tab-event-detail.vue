@@ -57,6 +57,7 @@
 <script>
   import { WxcButton, WxcCell } from 'weex-ui';
   import util from './util';
+  import config from '../config';
   const Sumslack = require("../sumslack/js/sumslack.js");
   module.exports = {
     components: { WxcButton, WxcCell  },
@@ -79,8 +80,8 @@
       
     },
     created(){
-      this.indexcode = Sumslack.getHttp().getUrlParam(this,"indexcode") || "112015032410000102"; 
-      //Sumslack.alert(this.indexcode);
+      this.indexcode = Sumslack.getHttp().getUrlParam(this,"indexcode") || ""; 
+      
       Sumslack.init("宏观指标",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();
