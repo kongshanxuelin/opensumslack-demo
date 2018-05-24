@@ -4,7 +4,7 @@
     <div class="flex-column flex-center flex-middle tab-btns">
         <text @click="tabClick(0)" class="text-info-padding" :class="[tabIndex==0?'text-info-selected':'text-info']">财经指标</text>
         <text @click="tabClick(1)" class="text-info-padding" :class="[tabIndex==1?'text-info-selected':'text-info']">财经事件</text>
-        <text @click="tabClick(2)" class="text-info-padding" :class="[tabIndex==2?'text-info-selected':'text-info']">节假日</text>
+        <!--<text @click="tabClick(2)" class="text-info-padding" :class="[tabIndex==2?'text-info-selected':'text-info']">节假日</text>-->
     </div>
   </div>
   <div class="tab-container" v-if="tabIndex==0">
@@ -91,7 +91,7 @@
     </div> 
     <scroller :class="['scroller','main-list', isIpx&&isIpx()?'ml-ipx':'']" offset-accuracy="300" loadmoreoffset="300" @loadmore="onloadmore">
       <refresher @loadingDown="loadingDown"></refresher>
-      <tab-event-fx-item @click.native="doDetail(item)" :country="item.country" :lvl="item.importantstr" :indexname="item.content"   v-for="(item,index) in eventItemsEvent" :row-index="index" :key="item.id"></tab-event-fx-item>
+      <tab-event-fx-item :country="item.country" :lvl="item.importantstr" :indexname="item.content"   v-for="(item,index) in eventItemsEvent" :row-index="index" :key="item.id"></tab-event-fx-item>
       <!--
       <loading class="loading" @loading="onloading" :display="showLoading">
           <text class="indicator">...</text>
@@ -99,6 +99,7 @@
       -->
     </scroller>
   </div>
+  <!--
   <div class="tab-container" v-if="tabIndex==2">
     <div class="wrapper">
         <div class="flex-column">
@@ -110,12 +111,11 @@
     </div> 
     <div class="info">
       <div  class='info-item' style="width:650px;" v-for="holiday in holidayItems">
-        <text class="text-info">{{holiday.country}}</text>
-        <text class="text-info">{{holiday.marketType}}</text>
-        <text class="text-info">{{holiday.holidayReason}}</text>
+        <text class="text-info">{{holiday.country}} {{holiday.marketType}} {{holiday.holidayReason}}</text>
       </div>
     </div>
   </div>
+  -->
 </div>
 </template>
 <style scoped src='../css/sumslack.css' />

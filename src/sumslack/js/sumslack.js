@@ -190,12 +190,16 @@ export function login(cb) {
         return;
     }
     sumslack.getAuthToken(function (token) {
-        sumslack.requestWebOauth({ 'code': token, 'clientId': config.AppID }, function (res) {
-            if (typeof cb === "function") {
-                res = toJSON(res);
-                cb(res);
-            }
-        });
+        if (token === "\"{}\"") {
+            cb({code:""});
+        }else{
+            sumslack.requestWebOauth({ 'code': token, 'clientId': config.AppID }, function (res) {
+                if (typeof cb === "function") {
+                    res = toJSON(res);
+                    cb(res);
+                }
+            });
+        }
     });
 }
 export function isSumslackEnv() {
@@ -381,7 +385,7 @@ export function navigateToEmojiPanel(title, placeholder, pageId, params) {
             }
         }
     }
-    _url = getBaseURL(this) + _url;
+    _url = getBaseURL() + _url;
     if (sumslack && isSumslackEnv()) {
         sumslack.navigateToEmojiPanel({ 'url': _url, 'title': title, 'placeholder': placeholder });
     } else {
@@ -390,7 +394,6 @@ export function navigateToEmojiPanel(title, placeholder, pageId, params) {
 }
 export function navigateTo(pageId, params) {
     var _url = config.getPageUrl(pageId);
-    alert("1:"+_url);
     if (typeof params === "object") {
         for (var k in params) {
             if (_url.indexOf("?") > 0) {
@@ -400,9 +403,8 @@ export function navigateTo(pageId, params) {
             }
         }
     }
-    alert("2:" + _url);
-    _url = getBaseURL(this) + _url;
-    alert("3:" + _url);
+    let _basepath = getBaseURL();
+    _url = _basepath + _url;
     if (sumslack && isSumslackEnv()) {
         sumslack.navigateTo(_url);
     } else {
@@ -429,7 +431,7 @@ export function redirectTo(pageId, params) {
         }
     }
     //console.log("======gotopage redirect:", _url);
-    _url = getBaseURL(this) + _url;
+    _url = getBaseURL() + _url;
     if (sumslack && isSumslackEnv()) {
         sumslack.redirectTo(_url);
     } else {

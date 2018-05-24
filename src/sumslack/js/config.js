@@ -41,44 +41,46 @@ module.exports = {
         },
         {
             id: "fin.tab.event",
-            url: "tab-event.weex.js"
+            url: "finIndex/tab-event.js"
         },
         {
             id: "fin.tab.event.detail",
-            url: "tab-event-detail.weex.js"
+            url: "finIndex/tab-event-detail.js",
         },
         {
             id: "fin.detail.bond",
-            url: "detail-bond.weex.js"
+            url: "finIndex/detail-bond.js"
         },
         {
             id: "fin.detail.bond.compare",
-            url: "detail-bond-compare.weex.js"
+            url: "finIndex/detail-bond-compare.js"
         },
         {
             id: "fin.detail.macro",
-            url: "detail-macro.weex.js"
+            url: "finIndex/detail-macro.js"
         },
         {
             id: "fin.favlist",
-            url: "favlist.weex.js"
+            url: "finIndex/favlist.js"
         }
 
     ],
     Config:{
         "allowAnonymous":true, //应用是否允许匿名使用
-        //"DEV": true,
-        //模拟登陆用户，在dev=true时有效
+        // "DEV": true,
+        // //模拟登陆用户，在dev=true时有效
         // testCode: "fb0e25752f27250ce114ccabe500de22",
         // testUser: {
         //     "avator": "http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKEyBhwVLiaRdhZajRkH6MCbQCfpzCLu3bhvRRJSoYXlDdJrm8t1A9TkXXH5YVkEz04jczOTpwpN3w/0",
         //     "company_id": "73",
         //     "company_name": "test",
         //     "nick": "空山雪林", "sex": "1",
-        //     "token": "fb0e25752f27250ce114ccabe500de22", id: 1106, "uid": "1106", "isLogined": true
+        //     "token": "fb0e25752f27250ce114ccabe500de22", 
+        //     id: 1106, 
+        //     "uid": "1106"
         // },
         notSupport: "该接口或功能仅在OpenSumslack移动端中支持！",
-        svrurl:"http://192.168.1.154:7080/"
+        svrurl:"http://192.168.1.154:9191/"
     },
     getPageUrl:function(id){
         for(var i in this.pages){

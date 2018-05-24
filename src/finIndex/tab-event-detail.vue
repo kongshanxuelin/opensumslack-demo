@@ -19,7 +19,7 @@
     </div> 
   </div>        
   <div class="panel"> 
-    <chart ref="chart" :data="series" style="height:550px;width:100%;"></chart>
+    <chart ref="chart" :data="series" style="height:550px;width:720px;"></chart>
   </div>
   <div style="margin-top:30px">
     <wxc-button text="关  闭"

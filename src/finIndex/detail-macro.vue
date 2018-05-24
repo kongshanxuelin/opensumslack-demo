@@ -1,28 +1,41 @@
 <template>
 <div class="wxc-demo">
-    
-    <term class="term" type="2" @itemSelected="termItemClick"></term>
-     
-
+    <term class="term" type="2" @itemSelected="termItemClick"></term>  
     <div class="panel">
-      <text class="panel-header">基本信息</text>
+      <div class="panel-header">
+        <div class="flex-column">
+        <text class="prop_value" style="margin-right:20px">基本信息</text>
+        <text class="iconfont-selected icon-search" @click="favIt" v-if="isFav">&#xe6f4;</text>
+        <text class="iconfont icon-search" @click="favIt" v-else>&#xe6f5;</text>
+        </div>
+      </div>
       <div class="panel-body">
         <div class="flex-column list-item flex-between" :key="index" v-for="(m,index) in mprops">
-          <text class="prop_name">{{m.propName}}：</text>
-          <text class="prop_value">{{m.propValue}}</text>
+          <view style="margin-top:20px;margin-bottom:20px;margin-left:70px;margin-right:70px;" v-if="index==0">
+            <text style="color:#FFFFFF;width:600px;">{{m.propValue}}</text>
+          </view>
+          <text v-if="index>0" class="prop_name">{{m.propName}}：</text>
+          <text v-if="index>0" class="prop_value">{{m.propValue}}</text>
+         
         </div>
       </div>
     </div>
   <div class="panel"> 
-    <chart ref="chart" :data="series" style="height:550px;width:100%;"></chart>
+    <chart ref="chart" :data="series" style="height:550px;width:720px;"></chart>
   </div>
-  <div class="panel">
+  <div class="panel" style="margin-top:20px;margin-bottom:20px">
     <text 
     :key="index" 
     @click="clickLine(index)" 
     v-for="(line,index) in chartOption.series" 
-    :style="{fontSize:25,color:line.color,marginTop:'5px',marginBottom:'5px',marginLeft:'5px',marginRight:'5px'}">{{line.title}}</text>
+    :style="{fontSize:25,color:line.color,marginTop:'5px',marginBottom:'5px',marginLeft:'5px',marginRight:'5px',paddingTop:'12px',paddingBottom:'12px'}">{{line.title}}</text>
   </div>
+
+  <div style="margin-top:30px">
+    <wxc-button text="关  闭"
+                    type="highlight"
+                    @wxcButtonClicked="backIt"></wxc-button>
+  </div> 
 </div>
 </template>
 <style scoped src='../css/sumslack.css' />
@@ -60,9 +73,12 @@
   import util from './util';
   import config from '../config';
   const Sumslack = require("../sumslack/js/sumslack.js");
+  const httpService = require("../sumslack/js/http-service.js");
+
   module.exports = {
     components: { WxcButton, WxcCell  },
     data: () => ({
+        isFav:false,
         mprops:[
           {propName:"名称",propValue:"xxx"},
           {propName:"单位",propValue:"xxx"},
@@ -79,6 +95,15 @@
     created(){
       this.gjkcode = Sumslack.getHttp().getUrlParam(this,"id") || "CRE1A02035";
       //this.gjkcode ="CEC1A00361";
+
+      httpService.loginThen().then(res => {
+        if(res){
+          httpService.favGet(this.gjkcode).then(json => {
+            this.isFav = json.res;
+          });
+        }
+      });
+
       Sumslack.init("宏观指标",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();
@@ -90,7 +115,7 @@
                         if(data.length>0){
                           this.mprops[0].propValue=data[0].seriesNameLocal;
                           this.mprops[1].propValue=data[0].unitTypeLocal;
-                          this.mprops[2].propValue=data[0].seriesFreqLocal;
+                          this.mprops[2].propValue=data[0].seriesFreq;
                           this.mprops[3].propValue=data[0].sourceNameLocal;
                         }
                       });
@@ -98,7 +123,7 @@
                       }).then(data => {
                         let tempdatas=[];
                         let temps={};
-                        temps.title="曲线1";
+                        temps.title=this.mprops[0].propValue;
                         temps.color="#FF9200";
                         temps.type="line";
 
@@ -120,6 +145,44 @@
       },
       termItemClick:function(term){
         Sumslack.alert(Sumslack.print(term.term));
+      },
+      backIt:function(){
+        Sumslack.close();
+      },
+      fav(){
+        var that = this;
+        httpService.fav(this.gjkcode,function(json){
+          if(json.res){
+            if(json.d === 1){  //收藏成功
+              that.isFav = true;
+              Sumslack.toast("收藏词条成功!");
+            }else{
+              that.isFav = false;
+              Sumslack.toast("取消收藏词条成功!");
+            }
+          }
+        });
+      },
+      favIt(){
+        //this.isFav = !this.isFav;
+        // if(this.isFav){
+        //   Sumslack.toast("收藏成功!");
+        // }
+        var that = this;
+        httpService.isLogin(function(ret){
+          if(!ret){//未登录情况下
+            httpService.login(function(json){
+              if(!json.ret){
+                Sumslack.alert(json.msg);
+              }else{
+                //已经处于登录状态，则直接获取token收藏指标
+                that.fav();
+              }
+            });
+          }else{ //已登录情况下
+            that.fav();
+          }
+        });
       }
     }
   };
