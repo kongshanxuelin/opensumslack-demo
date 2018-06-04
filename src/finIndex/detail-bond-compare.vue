@@ -1,12 +1,10 @@
 <template>
 <div class="wxc-demo">
-
   <div class="flex-column container">
-  
     <div style="flex:1">
       <div class="flex-row">
-        <div class="flex-column" v-for="(b,index) in bonds">
-          <input style="flex:1"  type="text" placeholder="输入需比较的词条..." class="input input-split" />
+        <div class="flex-column mt10" :key="'input_'+index" v-for="(b,index) in bonds">
+          <term class="term" type="B" :data-idx="index" @itemSelected="termItemClick"></term>
           <text class="iconfont icon-search" @click="removeInput(index-1)" v-if="index!=0">&#xe6f3;</text>
         </div>
       </div>
@@ -43,6 +41,19 @@
 .test{
   display: flex;
   flex-direction:row;
+}
+.term {
+  height:60px;
+  width:580px;
+  background-color: #0E1A18;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #193D37;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+.mt10 {
+  margin-bottom: 10px;
 }
 .container {
   margin-top:30px;
@@ -91,7 +102,7 @@
   module.exports = {
     components: { WxcButton, WxcCell  },
     data: () => ({
-      bonds:["k1","k2"],
+      bonds:["",""],
       bondValues:[
         {prop:"简称",v:["2015年贵阳","2015年贵阳","2015年贵阳","2015年贵阳"]},
         {prop:"债项评级",v:["AA","AAA","AA","AAA"]},
@@ -134,17 +145,26 @@
       });
       Sumslack.request(config.server+"/bond/details",{"bondKeys":"G0003652015CORLEB01,G0003652015CORLEB01"
                     }).then(res => {
-                      alert(res);
+                      //Sumslack.alert(Sumslack.print(res));
                       res.forEach((data,index) => {
                          let bondBean = data.bondBean;
-                         alert(index);
                          self.bondValues[0].v[index]= bondBean.shortName;
                       });
                     });
     },
     watch: {
       bonds:function(val){
-        Sumslack.toast("bonds发生变化，执行比较");
+        let items = new Set(val);
+        let str = "";
+        items.forEach(x => {
+          if(x !=""){
+            str+="," + x;
+          }
+        });
+        if(str.length>0){
+          str = str.substring(1,str.length);
+        }
+        Sumslack.alert(str);
       }
     },
     methods: {
@@ -159,6 +179,12 @@
         this.bonds = this.bonds.filter(function (item,_index) {
           return index!=_index;
         })
+      },
+      termItemClick:function(term){
+        let _idx = term.target.attr.dataIdx;
+        //Sumslack.alert(_idx + ":" + Sumslack.print(term.value.uuid));
+        //this.bonds[_idx] = term.value.uuid;
+        this.bonds.splice(_idx,1,term.value.uuid);
       }
     }
   };

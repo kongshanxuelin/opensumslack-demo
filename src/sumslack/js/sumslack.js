@@ -392,6 +392,20 @@ export function navigateToEmojiPanel(title, placeholder, pageId, params) {
         alert(config.Config.notSupport);
     }
 }
+export function removeLast(basepath,url){
+     let w = url.substring(0,url.indexOf("/"));
+     if(w.length>1){
+         let p = basepath;
+         if(p.lastIndexOf("/")==p.length-1){
+            p = p.substring(0,p.length-1);
+         }
+         let w2 = p.substring(p.lastIndexOf("/")+1,p.length);
+         if(w === w2){
+             return p.substring(0,p.lastIndexOf("/")+1);
+         }
+     }
+     return basepath;
+}
 export function navigateTo(pageId, params) {
     var _url = config.getPageUrl(pageId);
     if (typeof params === "object") {
@@ -404,7 +418,9 @@ export function navigateTo(pageId, params) {
         }
     }
     let _basepath = getBaseURL();
+    _basepath = removeLast(_basepath,_url);
     _url = _basepath + _url;
+    alert(_url);
     if (sumslack && isSumslackEnv()) {
         sumslack.navigateTo(_url);
     } else {

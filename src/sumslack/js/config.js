@@ -80,7 +80,7 @@ module.exports = {
         //     "uid": "1106"
         // },
         notSupport: "该接口或功能仅在OpenSumslack移动端中支持！",
-        svrurl:"http://192.168.1.154:9191/"
+        svrurl: "http://wstest.idbhost.com/finIndex/"
     },
     getPageUrl:function(id){
         for(var i in this.pages){

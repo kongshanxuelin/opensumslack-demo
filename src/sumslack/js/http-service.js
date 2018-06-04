@@ -80,7 +80,6 @@ export function favGet(finId) {
             });
         });
     });
-
 }
 
 export function favList(cb) {
@@ -91,6 +90,20 @@ export function favList(cb) {
             //Sumslack.alert(Sumslack.print(data));
             data = Sumslack.toJSON(data);
             cb(data);
+        });
+    });
+}
+
+export function favRemove(ids) {
+    return new Promise((resolve) => {
+        getToken(function (result) {
+            Sumslack.request(Sumslack.getConfig().svrurl + "fav/remove", {
+                "token": result,
+                "ids":ids
+            }).then(data => {
+                data = Sumslack.toJSON(data);
+                resolve(data);
+            });
         });
     });
 }
