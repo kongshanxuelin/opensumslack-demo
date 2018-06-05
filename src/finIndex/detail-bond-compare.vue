@@ -19,10 +19,7 @@
       <div class="flex-row" >
         <div class="flex-column row-height">
           <text class="w200 prop_name">属性/债券</text>
-          <text class="w250 prop_name">债券对比页2</text>
-          <text class="w250 prop_name">债券对比页3</text>
-          <text class="w250 prop_name">债券对比页4</text>
-          <text class="w250 prop_name">债券对比页5</text>
+          <text class="w250 prop_name" v-for="(bond,index) in bonds">债券对比{{index+1}}</text>
         </div>
         <scroller scroll-direction="vertical">
           <div class="flex-column row-height" v-for="(item,index) in bondValues">
@@ -95,6 +92,7 @@
 }
 </style>
 <script>
+  import Vue from 'vue';
   import config from '../config.js';
   import { WxcButton, WxcCell } from 'weex-ui';
   const Sumslack = require("../sumslack/js/sumslack.js");
@@ -120,6 +118,7 @@
         {prop:"利率方式",v:["固定利率","固定利率","固定利率","固定利率"]},
         {prop:"票面利率",v:["4.17%","4.17%","4.17%","4.17%"]},
         {prop:"发行收益",v:["4.17%","4.17%","4.17%","4.27%"]},
+        {prop:"发行价格",v:["4.17%","4.17%","4.17%","4.27%"]},
         {prop:"付息频率",v:["年度","年度","年度","年度"]},
         {prop:"计息频率",v:["年度","年度","年度","年度"]},
         {prop:"发行人",v:["国有企业","国有企业","国有企业","国有企业"]},
@@ -143,14 +142,6 @@
               Sumslack.refresh();
           });
       });
-      Sumslack.request(config.server+"/bond/details",{"bondKeys":"G0003652015CORLEB01,G0003652015CORLEB01"
-                    }).then(res => {
-                      //Sumslack.alert(Sumslack.print(res));
-                      res.forEach((data,index) => {
-                         let bondBean = data.bondBean;
-                         self.bondValues[0].v[index]= bondBean.shortName;
-                      });
-                    });
     },
     watch: {
       bonds:function(val){
@@ -164,6 +155,57 @@
         if(str.length>0){
           str = str.substring(1,str.length);
         }
+        this.bondValues.forEach((bond,index) => {
+          bond.v = new Array;
+        });
+         Sumslack.request(config.server+"/bond/details",{"bondKeys":"G0003652015CORLEB01,G0003652015CORLEB01"
+                    }).then(res => {
+                     // Sumslack.alert(Sumslack.print(res));
+                      res.forEach((data,index) => {
+                         let bondBean = data.bondBean;
+                         this.bondValues[0].v.push(bondBean.shortName);
+                         if(data.bondRatingBeanList&&data.bondRatingBeanList.length>0){
+                            this.bondValues[1].v.push(data.bondRatingBeanList[0].bondRating);
+                            this.bondValues[2].v.push(data.bondRatingBeanList[0].bondRating);
+                         }else{
+                            this.bondValues[1].v.push("");
+                            this.bondValues[2].v.push("");
+                         }
+                         this.bondValues[3].v.push(bondBean.bondType);
+                         this.bondValues[4].v.push("");
+                         this.bondValues[5].v.push(bondBean.maturityTerm+bondBean.termUnit);
+                         this.bondValues[6].v.push(bondBean.leftTime);
+                         this.bondValues[7].v.push(bondBean.optionType);
+                         this.bondValues[8].v.push(bondBean.redemptionNo?"提前还本":"到期一次还本");
+                           let mun = "";
+                          data.underWriterInstitutionBeanListForMUN.forEach(forMun => {
+                            mun = mun + forMun.shortNameC;
+                          });
+                          this.bondValues[9].v.push(mun);
+                          let ung = "";
+                          data.underWriterInstitutionBeanListForUNG.forEach(forUng => {
+                            ung = ung + forUng.shortNameC;
+                          });
+                         this.bondValues[10].v.push(ung);
+                         this.bondValues[11].v.push(bondBean.ratingAugment);
+                         this.bondValues[12].v.push(bondBean.warranterName);
+                         this.bondValues[13].v.push(bondBean.couponType);
+                         this.bondValues[14].v.push(bondBean.couponRateSpread?bondBean.couponRateSpread+"%":"--");
+                         this.bondValues[15].v.push(bondBean.couponRateSpread+"%");
+                         this.bondValues[16].v.push(bondBean.issuePrice+"元");
+                         this.bondValues[17].v.push(bondBean.couponFrequency);
+                         this.bondValues[18].v.push(bondBean.compoundFrequency);
+                         this.bondValues[19].v.push(bondBean.ins_name);
+                         this.bondValues[20].v.push(bondBean.ins_type);
+                         this.bondValues[21].v.push(bondBean.interestStartDate?bondBean.interestStartDate:"--");
+                         this.bondValues[22].v.push(bondBean.listedDate?bondBean.listedDate:"--");
+                         this.bondValues[23].v.push("");
+                         this.bondValues[24].v.push("");
+                         this.bondValues[25].v.push(bondBean.delistedDate?bondBean.delistedDate:"--");
+                         this.bondValues[25].v.push(bondBean.maturityDate?bondBean.maturityDate:"--");
+                        // Vue.set( this.bondValues[0].v, index, bondBean.shortName);
+                      });
+                    });
         Sumslack.alert(str);
       }
     },
