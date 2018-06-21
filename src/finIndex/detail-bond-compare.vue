@@ -19,12 +19,12 @@
       <div class="flex-row" >
         <div class="flex-column row-height">
           <text class="w200 prop_name">属性/债券</text>
-          <text class="w250 prop_name" v-for="(bond,index) in bonds">债券对比{{index+1}}</text>
+          <text class="w250 prop_name" v-for="(bond,index) in bonds">{{getBondId(bond)}}</text>
         </div>
         <scroller scroll-direction="vertical">
-          <div class="flex-column row-height" v-for="(item,index) in bondValues">
+          <div class="flex-column row-height2" v-for="(item,index) in bondValues">
             <text class="w200 prop_name">{{item.prop}}</text>
-            <text class="w250 prop_value" v-for="(vv,ii) in item.v">{{vv}}</text>
+            <text class="w250 prop_value line2" lines="2" v-for="(vv,ii) in item.v">{{vv}}</text>
           </div>
         </scroller>
       </div>      
@@ -67,6 +67,9 @@
 .row-height {
   height:50px;
 }
+.row-height2 {
+  height:80px;
+}
 .w200 {
   width: 180px;
 }
@@ -90,6 +93,10 @@
   font-size:25px;
   padding-right: 10px;
 }
+.line2 {
+  lines:2;
+  width:250px;
+}
 </style>
 <script>
   import Vue from 'vue';
@@ -100,7 +107,9 @@
   module.exports = {
     components: { WxcButton, WxcCell  },
     data: () => ({
+      bondKey:"", //初始传入的bondkey
       bonds:["",""],
+      bondList:[],
       bondValues:[
         {prop:"简称",v:["2015年贵阳","2015年贵阳","2015年贵阳","2015年贵阳"]},
         {prop:"债项评级",v:["AA","AAA","AA","AAA"]},
@@ -132,16 +141,18 @@
       ]
     }),
     computed: {
-      
+
     },
     created() {
       let self = this;
+      this.bondKey = Sumslack.getHttp().getUrlParam(this,"id") || "G0003652015CORLEB01";
       util.initIconFont();
       Sumslack.init("债券比对",[{"title":"刷新","href":"javascript:refreshPage"}],function(){
           Sumslack.addGlobalEventListener("refreshPage",function(){
               Sumslack.refresh();
           });
       });
+      this.bonds = [this.bondKey]
     },
     watch: {
       bonds:function(val){
@@ -158,9 +169,11 @@
         this.bondValues.forEach((bond,index) => {
           bond.v = new Array;
         });
-         Sumslack.request(config.server+"/bond/details",{"bondKeys":"G0003652015CORLEB01,G0003652015CORLEB01"
+        
+         Sumslack.request(config.server+"/bond/details",{"bondKeys":str
                     }).then(res => {
-                     // Sumslack.alert(Sumslack.print(res));
+                      //Sumslack.alert(Sumslack.print(res));
+                      this.bondList = res;
                       res.forEach((data,index) => {
                          let bondBean = data.bondBean;
                          this.bondValues[0].v.push(bondBean.shortName);
@@ -202,14 +215,25 @@
                          this.bondValues[23].v.push("");
                          this.bondValues[24].v.push("");
                          this.bondValues[25].v.push(bondBean.delistedDate?bondBean.delistedDate:"--");
-                         this.bondValues[25].v.push(bondBean.maturityDate?bondBean.maturityDate:"--");
+                         this.bondValues[26].v.push(bondBean.maturityDate?bondBean.maturityDate:"--");
                         // Vue.set( this.bondValues[0].v, index, bondBean.shortName);
                       });
                     });
-        Sumslack.alert(str);
+        
       }
     },
     methods: {
+      getBondId(bondkey){
+        var _bondId = "";
+        this.bondList.forEach(x => {
+          if(x.bondBean && x.bondBean.bondKey == bondkey){
+            //Sumslack.alert(x.bondBean.bondId);
+            _bondId = x.bondBean.bondId;
+          }
+        });
+        return _bondId;
+        //return "";
+      },
       addBondCompare(){
         if(this.bonds.length>5){
           Sumslack.toast("债券比对最多只允许6只~");

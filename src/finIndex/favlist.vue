@@ -69,7 +69,7 @@
     },
     methods: {
       minibarLeftButtonClick () {
-
+          Sumslack.dismissViewController(function(){});
       },
       doCellClick(_id,t){
         if(this.mode === 'view' && t === "B"){

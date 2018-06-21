@@ -40,6 +40,10 @@ OpenSumslack iOS版下载：
 ![OpenSumslack iOS版下载 - 扫一扫](http://h5.sumslack.com/pindazi.png)
 
 
+
+## 微信公众号
+![](https://www.sumslack.com/img/gzh.jpg)
+
 ### 常见问题
 
 - sass报错
@@ -57,3 +61,4 @@ taskkill /f -pid xxx
 ```
 npm install --global --production windows-build-tools
 ```
+

@@ -406,6 +406,12 @@ export function removeLast(basepath,url){
      }
      return basepath;
 }
+
+export function dismissViewController(cb) {
+    if (typeof cb === "function")
+        cb();
+}
+
 export function navigateTo(pageId, params) {
     var _url = config.getPageUrl(pageId);
     if (typeof params === "object") {
@@ -420,7 +426,7 @@ export function navigateTo(pageId, params) {
     let _basepath = getBaseURL();
     _basepath = removeLast(_basepath,_url);
     _url = _basepath + _url;
-    alert(_url);
+    //alert(_url);
     if (sumslack && isSumslackEnv()) {
         sumslack.navigateTo(_url);
     } else {

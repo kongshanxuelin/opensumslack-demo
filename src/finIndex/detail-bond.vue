@@ -314,7 +314,7 @@
         });
       },
       gotoBondCompare(){
-        Sumslack.navigateTo("fin.detail.bond.compare",{bondKey:"xxx"});
+        Sumslack.navigateTo("fin.detail.bond.compare",{bondKey:this.bondKey});
       },
       query(){
         var self = this;
