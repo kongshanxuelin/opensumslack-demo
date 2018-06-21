@@ -408,8 +408,11 @@ export function removeLast(basepath,url){
 }
 
 export function dismissViewController(cb) {
-    if (typeof cb === "function")
-        cb();
+    sumslack.dismissViewController(function (ret) {
+        if (typeof cb === "function"){
+            cb();
+        }
+    });    
 }
 
 export function navigateTo(pageId, params) {
