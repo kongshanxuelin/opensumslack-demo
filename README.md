@@ -26,7 +26,20 @@ weex compile src/** dist
 
 ### 效果图
 
-<img src='http://wxapps.sumslack.com/demo2/preview.png' alt='我的'/>
+![](http://wxapps.sumslack.com/demo2/preview.png)
+
+### 项目案例
+
+> 基于Opensumslack我们开发了以下App，欢迎试用
+
+#### 团队管理
+![](http://wxapps.sumslack.com/team/preview.png)
+
+#### 金融词条
+![](http://wxapps.sumslack.com/fin/fin.png)
+
+#### 拼搭子
+![](http://wxapps.sumslack.com/dazi/a1.png)
 
 ### 手机端调试
 
@@ -43,6 +56,8 @@ OpenSumslack iOS版下载：
 
 ## 微信公众号
 ![](https://www.sumslack.com/img/gzh.jpg)
+
+
 
 ### 常见问题
 
