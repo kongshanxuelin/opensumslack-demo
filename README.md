@@ -1,79 +1,73 @@
-[![QQ](http://pub.idqqimg.com/wpa/images/group.png)](https://jq.qq.com/?_wv=1027&k=5HWgxBZ)
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
 
-## 项目简介
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-OpenSumslack支持的接口Demo程序
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-- 整合weex-ui（官方weex）；
-- OpenSumslack扩展的js接口，包含网络，地理坐标，存储，电话，聊天，注册登录，多媒体等众多API；
-- 一些实例；
+## Description
 
-### 运行项目
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-```weex src --entry src/index.vue```
+## Installation
 
-最新版本的weex应该运行:
-
-```weex preview src --entry src/index.vue```
-
-
-### 打包项目
-
-```
-weex compile src/*.vue dist
-weex compile src/** dist
-```
-
-### 效果图
-
-![](http://wxapps.sumslack.com/demo2/preview.png)
-
-### 项目案例
-
-> 基于Opensumslack我们开发了以下App，欢迎试用
-
-#### 团队管理
-![](http://wxapps.sumslack.com/team/preview.png)
-
-#### 金融词条
-![](http://wxapps.sumslack.com/fin/fin.png)
-
-#### 拼搭子
-![](http://wxapps.sumslack.com/dazi/a1.png)
-
-### 手机端调试
-
-OpenSumslack安卓版下载：
-
-![OpenSumslack安卓版下载](http://wxapps.sumslack.com/opensumslack/dl_opensumslack.jpg)
-> 注：如果无法下载，直接在浏览器输入(http://wxapps.sumslack.com/opensumslack/openSumslack.apk)
-
-OpenSumslack iOS版下载：
-
-![OpenSumslack iOS版下载 - 扫一扫](http://h5.sumslack.com/pindazi.png)
-
-
-
-## 微信公众号
-![](https://www.sumslack.com/img/gzh.jpg)
-
-
-
-### 常见问题
-
-- sass报错
-```npm rebuild node-sass --force```
-
-- 端口被占用：
-
-```
-netstat -aon | findstr 8082  
-taskkill /f -pid xxx
+```bash
+$ yarn install
 ```
 
-- 安装weex时报C++编译错误
+## Running the app
 
-```
-npm install --global --production windows-build-tools
+```bash
+# development
+$ yarn run start
+
+# watch mode
+$ yarn run start:dev
+
+# production mode
+$ yarn run start:prod
 ```
 
+## Test
+
+```bash
+# unit tests
+$ yarn run test
+
+# e2e tests
+$ yarn run test:e2e
+
+# test coverage
+$ yarn run test:cov
+```
+
+## Support
+
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+
+## Stay in touch
+
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
+
+## License
+
+Nest is [MIT licensed](LICENSE).
